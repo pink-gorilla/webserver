@@ -19,6 +19,7 @@
   (-> opts
       (assoc :lib lib
              :version version
+             :license "open-source"
              :transitive true)
       ;(bb/run-tests)
       ;(bb/clean)
