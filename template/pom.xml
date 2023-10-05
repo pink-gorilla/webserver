@@ -16,7 +16,7 @@
     </developer>
   </developers>
   <scm>
-    <url>https://github.com/pink-gorila/webserver</url>
+    <url>https://github.com/pink-gorilla/webserver</url>
     <connection>scm:git:git://github.com/seancorfield/next-jdbc.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/seancorfield/next-jdbc.git</developerConnection>
   </scm>
