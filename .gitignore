@@ -1,5 +1,3 @@
-pom.xml
-pom.xml.asc
 *.jar
 *.class
 /lib/
@@ -16,14 +14,8 @@ pom.xml.asc
 .classpath
 .project
 .settings/*
-node_modules
-.shadow-cljs
-shadow-cljs.edn
 .calva
 .lsp/
-package.json
-package-lock.json
-karma.conf.js
 .webly
 certs
 target/

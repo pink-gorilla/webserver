@@ -19,7 +19,7 @@
   (-> opts
       (assoc :lib lib
              :version version
-             :license "open-source"
+             :src-pom "template/pom.xml"
              :transitive true)
       ;(bb/run-tests)
       ;(bb/clean)
