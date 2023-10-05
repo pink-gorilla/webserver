@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <name>webserver</name>
   <description>webserver library</description>
-  <url>https://github.com/pinkgorilla/webserver</url>
+  <url>https://github.com/pink-gorilla/webserver</url>
   <licenses>
     <license>
       <name>Eclipse Public License</name>
@@ -16,7 +16,7 @@
     </developer>
   </developers>
   <scm>
-    <url>https://github.com/pinkgorila/webserver</url>
+    <url>https://github.com/pink-gorila/webserver</url>
     <connection>scm:git:git://github.com/seancorfield/next-jdbc.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/seancorfield/next-jdbc.git</developerConnection>
   </scm>
