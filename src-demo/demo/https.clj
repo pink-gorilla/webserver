@@ -2,21 +2,33 @@
   (:require
    [modular.webserver.jetty :refer [run-jetty-server]]
    [modular.webserver.handler.not-found :refer [not-found-handler]]
-   [modular.webserver.handler.files :refer [->FilesMaybe]]
+   [modular.webserver.handler.files :refer [->FilesMaybe ->ResourcesMaybe]]
    [modular.webserver.handler.config :refer [config-handler]]
    [modular.webserver.middleware.bidi :refer [wrap-bidi]]
    [modular.webserver.middleware.exception :refer [wrap-fallback-exception]]
    [modular.webserver.middleware.api :refer [wrap-api-handler]]
+   [modular.webserver.page :refer [page]]
    [modular.config :as config]))
 
 (config/set! :demo {:mode 3 :message "testing"})
 
+
+(defn main-page [_]
+  (page {:title "demo-123"
+         :author "goblin77"
+         }
+        [:div
+         [:h1 "hello, world!"]
+         [:a {:href "/config"} [:p "config handler "]]
+         [:a {:href "/r/demo.txt"} [:p "demo.txt"]]
+         [:a {:href "/big-void"} [:p "big-void (unknown route)"]]]))
+
+
 (def routes
-  ["/" {"webly" (->FilesMaybe {:dir "../docs/"})
-        "webly/" (->FilesMaybe {:dir "../docs/index.html"})
-        ;"" (->FilesMaybe {:dir "../docs/"})
+  ["/" {"" main-page
+        "r/" (->ResourcesMaybe {:prefix "public"})
         "config" {:get (wrap-api-handler config-handler)}
-        #{"r" "public"} (->FilesMaybe {:dir "public"})
+        #{"r" "public"} (->FilesMaybe {:dir "src-demo/public"})
         true not-found-handler}])
 
 (defn run-webserver [& _]
