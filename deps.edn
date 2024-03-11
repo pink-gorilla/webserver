@@ -26,7 +26,7 @@
         hiccup/hiccup {:mvn/version "1.0.5"}   ; server side templating
 
         ; modular
-        org.pinkgorilla/modular {:mvn/version "0.0.38"} ; persistence
+        org.pinkgorilla/modular {:mvn/version "0.0.38"} ; encoding
         }
 
 

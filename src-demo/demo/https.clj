@@ -6,11 +6,7 @@
    [modular.webserver.middleware.bidi :refer [wrap-bidi]]
    [modular.webserver.middleware.exception :refer [wrap-fallback-exception]]
    [modular.webserver.middleware.api :refer [wrap-api-handler]]
-   [modular.webserver.page :refer [page]]
-   [modular.config :as config]))
-
-(config/set! :demo {:mode 3 :message "testing"})
-
+   [modular.webserver.page :refer [page]]))
 
 (defn main-page [_]
   (page {:title "demo-123"
@@ -18,7 +14,6 @@
          }
         [:div
          [:h1 "hello, world!"]
-         [:a {:href "/config"} [:p "config handler "]]
          [:a {:href "/r/demo.txt"} [:p "demo.txt"]]
          [:a {:href "/big-void"} [:p "big-void (unknown route)"]]]))
 
