@@ -3,7 +3,6 @@
    [modular.webserver.jetty :refer [run-jetty-server]]
    [modular.webserver.handler.not-found :refer [not-found-handler]]
    [modular.webserver.handler.files :refer [->FilesMaybe ->ResourcesMaybe]]
-   [modular.webserver.handler.config :refer [config-handler]]
    [modular.webserver.middleware.bidi :refer [wrap-bidi]]
    [modular.webserver.middleware.exception :refer [wrap-fallback-exception]]
    [modular.webserver.middleware.api :refer [wrap-api-handler]]
@@ -26,8 +25,7 @@
 
 (def routes
   ["/" {"" main-page
-        "r/" (->ResourcesMaybe {:prefix "public"})
-        "config" {:get (wrap-api-handler config-handler)}
+        "r/" (->ResourcesMaybe {:prefix "public"}) 
         #{"r" "public"} (->FilesMaybe {:dir "src-demo/public"})
         true not-found-handler}])
 
