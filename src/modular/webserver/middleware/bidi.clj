@@ -1,6 +1,6 @@
 (ns modular.webserver.middleware.bidi
   (:require
-   [taoensso.timbre  :refer [debug info warn error]]
+   [taoensso.timbre  :refer [info]]
    [bidi.bidi :as bidi]
    [bidi.ring]))
 

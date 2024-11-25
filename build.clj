@@ -1,6 +1,5 @@
 (ns build
   (:require
-   [babashka.fs :as fs]
    [clojure.java.io :as io]
    [clojure.string :as str]
    [clojure.tools.build.api :as b]

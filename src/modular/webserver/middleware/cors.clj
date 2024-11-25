@@ -15,7 +15,7 @@
   ([handler allowed-origins]
    (fn [request]
      (if (= (request :request-method) :options)
-       (-> (response)                     ; Don't pass the requests down, just return what the browser needs to continue.
+       (-> (response "")                     ; Don't pass the requests down, just return what the browser needs to continue.
            (assoc-in [:headers "Access-Control-Allow-Origin"] allowed-origins)
            (assoc-in [:headers "Access-Control-Allow-Methods"] "GET,POST,DELETE")
            (assoc-in [:headers "Access-Control-Allow-Headers"] "X-Requested-With,Content-Type,Cache-Control,Origin,Accept,Authorization")

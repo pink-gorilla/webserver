@@ -1,6 +1,6 @@
 (ns modular.webserver.middleware.dev
   (:require
-   [taoensso.timbre :refer [debug info warn error]]
+   [taoensso.timbre :refer [warn]]
    [prone.middleware :refer [wrap-exceptions]]
    [ring.middleware.reload :refer [wrap-reload]]))
 

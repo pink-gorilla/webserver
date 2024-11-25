@@ -1,8 +1,6 @@
 (ns modular.webserver.page
   (:require
-   [clojure.string :as str]
    [hiccup.page :as page]))
-
 
 (defn- head
   ([config]
@@ -29,7 +27,6 @@
                [:link {:rel "shortcut icon" :href (str prefix icon)}]]]
      (into head extra-head))))
 
-
 (defn page
   ([config body]
    (page/html5
@@ -41,4 +38,3 @@
     {:mode :html}
     (head config extra-head)
     body)))
-  

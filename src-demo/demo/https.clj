@@ -1,6 +1,6 @@
 (ns demo.https
   (:require
-   [modular.webserver.jetty :refer [run-jetty-server]]
+   [modular.webserver.server.jetty :refer [run-jetty-server]]
    [modular.webserver.handler.not-found :refer [not-found-handler]]
    [modular.webserver.handler.files :refer [->FilesMaybe ->ResourcesMaybe]]
    [modular.webserver.middleware.bidi :refer [wrap-bidi]]

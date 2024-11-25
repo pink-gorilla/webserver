@@ -10,7 +10,7 @@
 
 (defrecord FilesMaybe [options]
   bidi/Matched
-  (resolve-handler [this m]
+  (resolve-handler [_this m]
     (let [reminder (url-decode (:remainder m))
           filename (str (:dir options) reminder)]
       ;(warn "file-maybe: " filename)
@@ -18,8 +18,8 @@
         ;(warn "file found: " filename)
         (assoc (dissoc m :remainder)
                :handler (->
-                         (fn [req] (file-response reminder
-                                                  {:root (:dir options)}))
+                         (fn [_req] (file-response reminder
+                                                   {:root (:dir options)}))
                          (wrap-content-type options)
                          (wrap-not-modified)
                          (wrap-gzip))))))
@@ -32,14 +32,14 @@
 
 (defrecord ResourcesMaybe [options]
   bidi/Matched
-  (resolve-handler [this m]
+  (resolve-handler [_this m]
     (let [path (url-decode (:remainder m))]
       (when (not-empty path)
-        (when-let [res (io/resource (str (:prefix options) path))]
+        (when-let [_res (io/resource (str (:prefix options) path))]
           ;(warn "res: " path)
           (assoc (dissoc m :remainder)
                  :handler (->
-                           (fn [req] (resource-response (str (:prefix options) path)))
+                           (fn [_req] (resource-response (str (:prefix options) path)))
                            (wrap-content-type options)
                            (wrap-not-modified) ; awb99 hack
                            (wrap-gzip)))))))

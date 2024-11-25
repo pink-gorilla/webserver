@@ -8,7 +8,6 @@
    ;[ring.middleware.anti-forgery :refer [wrap-anti-forgery]]
    ;[ring.middleware.defaults :refer [wrap-defaults site-defaults api-defaults]]
    ;[ring.middleware.session :refer [wrap-session]]
-   ;[ring.middleware.json :refer [wrap-json-response]]
    [modular.webserver.middleware.transit :refer [muuntaja]]
    [modular.webserver.middleware.exception :refer [wrap-fallback-exception]]))
 

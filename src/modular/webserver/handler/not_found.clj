@@ -6,5 +6,5 @@
 
 (def not-found-body "<h1>  bummer, not found </h1")
 
-(defn not-found-handler [req]
+(defn not-found-handler [_req]
   (response/not-found not-found-body))

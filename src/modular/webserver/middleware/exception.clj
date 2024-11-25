@@ -1,7 +1,7 @@
 (ns modular.webserver.middleware.exception
   (:require
    [clojure.string]
-   [taoensso.timbre :refer [debug info error]]))
+   [taoensso.timbre :refer [error]]))
 
 (defn wrap-fallback-exception
   [handler]
