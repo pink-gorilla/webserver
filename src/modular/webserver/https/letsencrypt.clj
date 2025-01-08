@@ -29,20 +29,21 @@
 (defn convert-cert
   "converts a letsencrypt certificate to a jetty certificate.
    throws on failure"
-  [{:keys [path domain _email]
+  [{:keys [path domain _email ]
     :or {path ".letsencrypt"}
-    :as _letsencrypt_opts}
-   {:keys [certificate-path
+    :as letsencrypt_opts}
+   {:keys [certificate
            password]
-    :or {certificate-path ".https-certificates"
+    :or {certificate ".https-certificates/keystore.p12"
          password "123456789"}
-    :as opts}]
-  (assert (map? opts) "parameter needs to be a map")
+    :as https_opts}]
+  (assert (map? letsencrypt_opts) "letsencrypt_opts needs to be a map")
+  (assert (map? https_opts) "https_opts needs to be a map")
   (assert domain ":domain key needs to be passed")
   (assert (string? domain) ":domain key needs to be a string")
   (let [letsencrypt-config-path (str path "/config")
         dir (str letsencrypt-config-path "/live/" domain)
-        https-cert-filename (str certificate-path "/keystore.p12")
+        certificate-path (-> certificate fs/parent str)
         letsencrypt-domain-cert-path (str letsencrypt-config-path "/live/" domain "/")
         letsencrypt-chain-pem (str letsencrypt-domain-cert-path "chain.pem")
         letsencrypt-fullchain-pem (str letsencrypt-domain-cert-path "/" "fullchain.pem")
@@ -63,9 +64,8 @@
            "-caname" "root"
            "-in" "fullchain.pem"
            "-inkey" "privkey.pem"
-           "-out" https-cert-filename
+           "-out" certificate
            "-name" "something" ; can be anything
            "-passout" (str "pass:" password))
     (shell
-     "chmod" "a+r" https-cert-filename)))
-
+     "chmod" "a+r" certificate)))
