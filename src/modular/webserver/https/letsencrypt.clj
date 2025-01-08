@@ -44,12 +44,11 @@
   (assert domain ":domain key needs to be passed")
   (assert (string? domain) ":domain key needs to be a string")
   (let [letsencrypt-config-path (str path "/config")
-        dir (str letsencrypt-config-path "/live/" domain)
         certificate-path (-> certificate fs/parent str)
         letsencrypt-domain-cert-path (str letsencrypt-config-path "/live/" domain "/")
         letsencrypt-chain-pem (str letsencrypt-domain-cert-path "chain.pem")
-        letsencrypt-fullchain-pem (str letsencrypt-domain-cert-path "/" "fullchain.pem")
-        letsencrypt-privkey-pem (str letsencrypt-domain-cert-path "/" "privkey.pem")]
+        letsencrypt-fullchain-pem (str letsencrypt-domain-cert-path "fullchain.pem")
+        letsencrypt-privkey-pem (str letsencrypt-domain-cert-path "privkey.pem")]
     (assert (fs/exists? letsencrypt-domain-cert-path)
             (str "letsencrypt domain dir does not exist: " letsencrypt-domain-cert-path))
     (assert (fs/exists? letsencrypt-chain-pem)
@@ -60,13 +59,12 @@
             (str "letsencrypt file does not exist: " letsencrypt-privkey-pem))
     (info "creating certificate path: " certificate-path)
     (fs/create-dirs certificate-path)
-    (shell {:dir dir}
-           "openssl" "pkcs12"
+    (shell "openssl" "pkcs12"
            "-export"
-           "-CAfile" "chain.pem"
+           "-CAfile" letsencrypt-chain-pem
            "-caname" "root"
-           "-in" "fullchain.pem"
-           "-inkey" "privkey.pem"
+           "-in" letsencrypt-fullchain-pem
+           "-inkey" letsencrypt-privkey-pem
            "-out" certificate
            "-name" "something" ; can be anything
            "-passout" (str "pass:" password))
