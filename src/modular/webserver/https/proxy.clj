@@ -24,16 +24,16 @@
 (defn certificate-get-handler [{:keys [letsencrypt https] :as config}]
   (fn [_req]
     (info "certificate-get started..")
-    (let [r (renew-cert letsencrypt)]
-      (info "result: " r)
-      (response/response "certificate-get started!"))))
+    (renew-cert letsencrypt)
+    (info "certificate-get finished..")
+    (response/response "certificate-get started!")))
 
 (defn certificate-import-handler [{:keys [letsencrypt https] :as config}]
   (fn [_req]
     (info "certificate-convert started..")
-    (let [r (convert-cert letsencrypt https)]
-      (info "result: " r)
-      (response/response "certificate-import started!"))))
+    (convert-cert letsencrypt https)
+    (info "certificate-convert finished.")
+    (response/response "certificate-import started!")))
 
 (defn start-proxy
   "http server on port 80 that redirects all traffic to 443, except

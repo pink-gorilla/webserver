@@ -1,5 +1,6 @@
 (ns modular.webserver.https.letsencrypt
   (:require
+   [taoensso.timbre :as timbre :refer [info error]]
    [babashka.fs :as fs]
    [babashka.process :refer [shell]]))
 
@@ -34,8 +35,7 @@
   [{:keys [path domain _email ]
     :or {path ".letsencrypt"}
     :as letsencrypt_opts}
-   {:keys [certificate
-           password]
+   {:keys [certificate password]
     :or {certificate ".https-certificates/keystore.p12"
          password "123456789"}
     :as https_opts}]
@@ -58,6 +58,7 @@
             (str "letsencrypt file does not exist: " letsencrypt-fullchain-pem))
     (assert (fs/exists? letsencrypt-privkey-pem)
             (str "letsencrypt file does not exist: " letsencrypt-privkey-pem))
+    (info "creating certificate path: " certificate-path)
     (fs/create-dirs certificate-path)
     (shell {:dir dir}
            "openssl" "pkcs12"
