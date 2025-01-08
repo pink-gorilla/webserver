@@ -2,17 +2,11 @@
 
 # keytool -keysize 2048 -genkey -alias jetty -keyalg RSA -keystore jetty.keystore
 
-certbot certonly \
- -w ./certs \
- -d panama.crbclean.com \
- --logs-dir /tmp \
- --config-dir ./certs \
- --work-dir ./certs \
- --standalone
+
 
 # --webroot \
 
-sudo certbot certonly --webroot -w /path/to/your/project/public -d yourdomain.com
+sudo certbot certonly --webroot -w public -d admin.crbclean.com
 
 # https://github.com/DerGuteMoritz/clj-oauth2/issues?q=is%3Aissue+is%3Aclosed
 
