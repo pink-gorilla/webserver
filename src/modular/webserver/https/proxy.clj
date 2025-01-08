@@ -25,14 +25,19 @@
 (defn certificate-get-handler [{:keys [letsencrypt https] :as config}]
   (fn [_req]
     (info "certificate-get started..")
-    (renew-cert letsencrypt)
-    (response/response {:body "certificate-get started!"})))
+    (let [r (renew-cert letsencrypt)]
+       (info "result: " r)
+       (response/response {:body "certificate-get started!"}))))
 
 (defn certificate-import-handler [{:keys [letsencrypt https] :as config}]
   (fn [_req]
    (info "certificate-convert started..")
-    (convert-cert letsencrypt https)
-    (response/response {:body "certificate-import started!"})))
+    (let [r (convert-cert letsencrypt https)]
+      (info "result: " r)
+    (response/response {:body "certificate-import started!"})))  
+      )
+    
+    
    
 
 (defn start-proxy 

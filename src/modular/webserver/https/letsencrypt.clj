@@ -16,7 +16,7 @@
   (assert domain "domain needs to be a string and a valid domain (www.demo.com)")  
   (assert email "email needs to be a string and a valid email (webmaster@demo.com)")
   ; certbot either needs to run as root, or set --config-dir, --work-dir, and --logs-dir to writeable paths.
-  (shell "certbot" "certonly" ; "sudo"
+  (shell "certbot" "certonly"
          "--non-interactive" "--agree-tos"
          "-m" email
          "--webroot" "--webroot-path" webroot-path
