@@ -43,11 +43,12 @@
   (let [letsencrypt-config-path (str path "/config")
         dir (str letsencrypt-config-path "/live/" domain)
         https-cert-filename (str certificate-path "/keystore.p12")
-        letsencrypt-chain-pem (str letsencrypt-config-path "/" "chain.pem")
-        letsencrypt-fullchain-pem (str letsencrypt-config-path "/" "fullchain.pem")
-        letsencrypt-privkey-pem (str letsencrypt-config-path "/" "privkey.pem")]
-    (assert (fs/exists? letsencrypt-config-path)
-            (str "letsencrypt domain dir does not exist: " letsencrypt-config-path))
+        letsencrypt-domain-cert-path (str letsencrypt-config-path "/live/" domain "/")
+        letsencrypt-chain-pem (str letsencrypt-domain-cert-path "chain.pem")
+        letsencrypt-fullchain-pem (str letsencrypt-domain-cert-path "/" "fullchain.pem")
+        letsencrypt-privkey-pem (str letsencrypt-domain-cert-path "/" "privkey.pem")]
+    (assert (fs/exists? letsencrypt-domain-cert-path)
+            (str "letsencrypt domain dir does not exist: " letsencrypt-domain-cert-path))
     (assert (fs/exists? letsencrypt-chain-pem)
             (str "letsencrypt file does not exist: " letsencrypt-chain-pem))
     (assert (fs/exists? letsencrypt-fullchain-pem)
