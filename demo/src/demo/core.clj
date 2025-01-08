@@ -3,9 +3,7 @@
    [modular.webserver.https.core :refer [start-redirect]]))
 
 
-
-
 (defn start [& _]
-  (start-redirect)
+  (start-redirect {:letsencrypt {:webroot-path "public"}})
   
   )
