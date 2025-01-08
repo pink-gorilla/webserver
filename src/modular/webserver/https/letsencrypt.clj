@@ -16,6 +16,8 @@
   (assert domain "domain needs to be a string and a valid domain (www.demo.com)")  
   (assert email "email needs to be a string and a valid email (webmaster@demo.com)")
   ; certbot either needs to run as root, or set --config-dir, --work-dir, and --logs-dir to writeable paths.
+  ; When using the webroot method the Certbot client places a challenge response inside domain.com/.well-known/acme-challenge/ 
+  ; which is used for validation. When validation is complete, challenge file is removed from the target directory
   (shell "certbot" "certonly"
          "--non-interactive" "--agree-tos"
          "-m" email

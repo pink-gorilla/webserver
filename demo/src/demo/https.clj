@@ -10,8 +10,7 @@
 
 (defn main-page [_]
   (page {:title "demo-123"
-         :author "goblin77"
-         }
+         :author "goblin77"}
         [:div
          [:h1 "hello, world!"]
          [:a {:href "/r/demo.txt"} [:p "demo.txt"]]

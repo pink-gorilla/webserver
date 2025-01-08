@@ -5,14 +5,13 @@
    [ring.util.response :as response]
    [reitit.ring :as ring]
    [ring.adapter.jetty :refer [run-jetty]]
-   [modular.webserver.https.letsencrypt :refer [renew-cert convert-cert]]
-   ))
+   [modular.webserver.https.letsencrypt :refer [renew-cert convert-cert]]))
 
 (defn redirect-handler [port]
   (fn [{:keys [uri server-name scheme query-string] :as req}]
-  (info"redirecting request: " uri)
-  (let [redirect-url (str scheme "://" server-name ":" port uri (when query-string (str "?" query-string)))]
-    (response/redirect redirect-url))))
+    (info "redirecting request: " uri)
+    (let [redirect-url (str scheme "://" server-name ":" port uri (when query-string (str "?" query-string)))]
+      (response/redirect redirect-url))))
 
 (defn static-file-handler [path]
   (let [acme-dir (str path "/.well-known/acme-challenge")
@@ -26,22 +25,18 @@
   (fn [_req]
     (info "certificate-get started..")
     (let [r (renew-cert letsencrypt)]
-       (info "result: " r)
-       (response/response {:body "certificate-get started!"}))))
+      (info "result: " r)
+      (response/response "certificate-get started!"))))
 
 (defn certificate-import-handler [{:keys [letsencrypt https] :as config}]
   (fn [_req]
-   (info "certificate-convert started..")
+    (info "certificate-convert started..")
     (let [r (convert-cert letsencrypt https)]
       (info "result: " r)
-    (response/response {:body "certificate-import started!"})))  
-      )
-    
-    
-   
+      (response/response "certificate-import started!"))))
 
-(defn start-proxy 
-   "http server on port 80 that redirects all traffic to 443, except
+(defn start-proxy
+  "http server on port 80 that redirects all traffic to 443, except
      /.well-known/acme-challenge (which is serves static files for certbot) and
      /.well-known/ping which will show pong (useful for debugging)"
   [{:keys [letsencrypt https]
@@ -58,9 +53,9 @@
                    ["*" (redirect-handler 443)]]
                   {:conflicts (constantly nil)})
                  (ring/create-default-handler))]
-     (info "redirecting http(80) -> https (443), letsencrypt public: " public-dir)
-     (run-jetty handler {:port 80
-                         :allow-null-path-info true ; omit the trailing slash from your URLs
-                         })))
+    (info "redirecting http(80) -> https (443), letsencrypt public: " public-dir)
+    (run-jetty handler {:port 80
+                        :allow-null-path-info true ; omit the trailing slash from your URLs
+                        })))
 
 
