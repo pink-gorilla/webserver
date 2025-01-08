@@ -15,9 +15,16 @@
     (response/redirect redirect-url)))
 
 (defn static-file-handler [dir]
-  (let [acme-dir (str dir "/.well-known/acme-challenge")]
+  (let [acme-dir (str dir "/.well-known/acme-challenge")
+        rh  (ring/create-file-handler {:root dir :path "/"})
+        ]
     (fs/create-dirs acme-dir)  
-    (ring/create-file-handler {:root dir :path "/"})
+    (fn [req]
+      
+      (println "res req: " req)
+      (rh req)
+      )
+   
     )
  
   )
