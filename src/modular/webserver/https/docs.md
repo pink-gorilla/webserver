@@ -19,6 +19,7 @@ oauth2
 # gute doc.
 # https://www.sorcerers-tower.net/articles/configuring-jetty-for-https-with-letsencrypt
 
+;; https://danielflower.github.io/2017/04/08/Lets-Encrypt-Certs-with-embedded-Jetty.html
 
 https://github.com/sig-gis/triangulum/blob/main/src/triangulum/https.clj
 https://www.sorcerers-tower.net/articles/configuring-jetty-for-https-with-letsencrypt

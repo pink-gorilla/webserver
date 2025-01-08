@@ -21,7 +21,7 @@
 (def routes
   ["/" {"" main-page
         "r/" (->ResourcesMaybe {:prefix "public"}) 
-        #{"r" "public"} (->FilesMaybe {:dir "src-demo/public"})
+        #{"r" "public"} (->FilesMaybe {:dir "public-web"})
         true not-found-handler}])
 
 (defn run-webserver [& _]
@@ -35,5 +35,5 @@
                        :keystore "./certs/keystore.p12"
                        :key-password "password"; Password you gave when creating the keystore
                        })))
-;; https://danielflower.github.io/2017/04/08/Lets-Encrypt-Certs-with-embedded-Jetty.html
+
 

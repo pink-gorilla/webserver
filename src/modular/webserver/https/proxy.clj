@@ -14,10 +14,10 @@
   (let [redirect-url (str scheme "://" server-name ":" port uri (when query-string (str "?" query-string)))]
     (response/redirect redirect-url))))
 
-(defn static-file-handler [dir]
-  (let [acme-dir (str dir "/.well-known/acme-challenge")
-        rh  (ring/create-file-handler {:root dir :path "/.well-known/acme-challenge/"})]
-    (fs/create-dirs acme-dir)
+(defn static-file-handler [path]
+  (let [acme-dir (str path "/.well-known/acme-challenge")
+        _ (fs/create-dirs acme-dir)
+        rh  (ring/create-file-handler {:root acme-dir :path "/.well-known/acme-challenge/"})]
     (fn [{:keys [uri] :as req}]
       (info "letsencrypt challenge on uri: " uri)
       (rh req))))
@@ -54,6 +54,8 @@
                   {:conflicts (constantly nil)})
                  (ring/create-default-handler))]
      (info "redirecting http(80) -> https (443), letsencrypt public: " public-dir)
-     (run-jetty handler {:port 80})))
+     (run-jetty handler {:port 80
+                         :allow-null-path-info true ; omit the trailing slash from your URLs
+                         })))
 
 
