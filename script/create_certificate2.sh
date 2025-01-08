@@ -6,7 +6,7 @@
 
 # --webroot \
 
-sudo certbot certonly --webroot -w public -d admin.crbclean.com
+sudo certbot certonly --webroot --webroot-path public -d admin.crbclean.com
 
 # https://github.com/DerGuteMoritz/clj-oauth2/issues?q=is%3Aissue+is%3Aclosed
 
