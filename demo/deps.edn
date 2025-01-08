@@ -35,6 +35,10 @@
   
   :redirect {:exec-fn  demo.core/start}
 
+
+  :renew {:exec-fn demo.core/renew}
+  :convert {:exec-fn demo.core/convert}
+
   :webserver {:exec-fn  demo.https/run-webserver}
 
   ; requires java/bouncycastle to be installed.

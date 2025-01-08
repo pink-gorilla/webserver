@@ -30,3 +30,4 @@ creds-localhost.edn
 \#*\#
 .\#*
 .~*
+.letsencrypt

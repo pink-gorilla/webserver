@@ -26,6 +26,7 @@
         ; for https:
         metosin/reitit-ring        {:mvn/version "0.7.2"} ; routing library
         babashka/fs {:mvn/version "0.5.22"}
+        babashka/process {:mvn/version "0.5.22"}
         
 
         hiccup/hiccup {:mvn/version "1.0.5"}   ; server side templating

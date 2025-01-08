@@ -17,3 +17,6 @@ chmod a+r ../../keystore.p12
 
 
 #  -password file:/opt/crickam/keystore.pw
+
+
+

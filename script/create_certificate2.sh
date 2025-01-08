@@ -8,4 +8,6 @@ sudo certbot certonly \
   --non-interactive --agree-tos -m webmaster@crbclean.com \
   --webroot --webroot-path public \
   -d admin.crbclean.com \
-  --work-dir ./letsencrypt
+  --work-dir ./letsencrypt \
+  --config-dir ./letsencrypt
+ 
