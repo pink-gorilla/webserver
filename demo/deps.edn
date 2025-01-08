@@ -1,43 +1,13 @@
 {:paths ["src" "resources"]
  :deps {org.clojure/clojure    {:mvn/version "1.11.1"}
-        ; ring middleware
-        ring/ring-core {:mvn/version "1.13.0"} ; https://github.com/ring-clojure/ring
-        metosin/muuntaja {:mvn/version "0.6.10"} ; 30x faster than ring-middleware-format
-        ring-cors/ring-cors {:mvn/version "0.1.13"}
-        bk/ring-gzip {:mvn/version "0.3.0"} ; from oz
-        ring/ring-devel {:mvn/version "1.13.0"} ; reload middleware - same version as rig/core
-        bidi/bidi {:mvn/version "2.1.6"}
-        ring/ring-defaults {:mvn/version "0.5.0"
-                            :exclusions [javax.servlet/servlet-api]}
-        prone/prone {:mvn/version "2021-04-23"} ; exception middleware
-        ring/ring-json {:mvn/version "0.5.1"}
-        ; https
-        ;org.shredzone.acme4j/acme4j-client {:mvn/version "2.7"}
-        ;org.shredzone.acme4j/acme4j-utils {:mvn/version "2.7"}
-        ;org.bouncycastle/bcprov-jdk15on {:mvn/version "1.69"}
-        ;org.bouncycastle/bcpkix-fips {:mvn/version "1.0.3"}
-        ;simplevalue/letsencrypt {:git/url "https://github.com/SimpleValue/sv.letsencrypt.git"
-        ;                         :sha "8b1a85846acaaa37a58b054f2372d8fde0663b75"}
-        ; webserver
-        ;info.sunng/ring-jetty9-adapter {:mvn/version  "0.15.2"} ; uses jetty 10.0.2,
-        ;info.sunng/ring-jetty9-adapter {:mvn/version  "0.36.0"} ; jetty 12, but could not get it to work with sente.
-        ring/ring-jetty-adapter {:mvn/version "1.13.0"} ; jetty 11
-        
-        hiccup/hiccup {:mvn/version "1.0.5"}   ; server side templating
-        ; modular
-        org.pinkgorilla/webserver {:local/root ".." :deps/manifest :deps}
-        
-        }
-
+        org.pinkgorilla/webserver {:local/root ".." :deps/manifest :deps}}
 
  :aliases
- {
-  
-  :redirect {:exec-fn  demo.core/start}
+ {:proxy {:exec-fn  modular.webserver.https.proxy/start-proxy
+          :exec-args {:letsencrypt {:domain "test.crbclean.com"
+                                    :email "webadmin@crbclean.com"}
+                      :https {}}}
 
-
-  :renew {:exec-fn demo.core/renew}
-  :convert {:exec-fn demo.core/convert}
 
   :webserver {:exec-fn  demo.https/run-webserver}
 
