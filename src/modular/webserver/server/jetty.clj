@@ -1,6 +1,5 @@
 (ns modular.webserver.server.jetty
   (:require
-
    [taoensso.timbre :as timbre :refer [info]]
    ;[ring.adapter.jetty9 :refer [run-jetty]]  ; https://github.com/sunng87/ring-jetty9-adapter  
    [ring.adapter.jetty :refer [run-jetty]]))

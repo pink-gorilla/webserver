@@ -5,15 +5,16 @@
     [clojure.set :refer [rename-keys]]
     [modular.webserver.server.jetty :as jetty]
     [modular.webserver.default :refer [http-default letsencrypt-default https-default]]
+    [modular.webserver.https.letsencrypt :refer [renew-cert convert-cert]]
     [modular.webserver.https.proxy :refer [start-proxy]]))
 
  ; https
 
- (defn https-creds? [{:keys [certificate]}]
+ (defn- https-creds? [{:keys [certificate]}]
    (fs/exists? certificate))
 
  (defn start-https [{:keys [handler https https-a] :as _this}]
-  (let [https (merge https-default https) ; defaults are overwritten by opts
+  (let [
         opts (-> https
                  (rename-keys {:port :ssl-port
                                :certificate :keystore
@@ -39,6 +40,7 @@
  
  (defn start-webserver [handler {:keys [http https letsencrypt] :as opts}]
    (let [http (merge http-default http) ; defaults are overwritten by opts
+         https (merge https-default https) ; defaults are overwritten by opts
          http (jetty/start-jetty handler http)
          this {:handler handler
                :http http
@@ -47,6 +49,10 @@
                :proxy (when-not (= (:port https) 0) 
                         (start-proxy opts))}]
      (start-https this)
+     (when (and (not (= (:port https) 0))
+                (:domain letsencrypt))
+        (renew-cert letsencrypt))
+      
      this))
 
  (defn stop [{:keys [http https] :as this}]
