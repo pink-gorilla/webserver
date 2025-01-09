@@ -59,7 +59,7 @@
                    ["*" (redirect-handler https-port)]]
                   {:conflicts (constantly nil)})
                  (ring/create-default-handler))]
-    (info "redirecting http(80) -> https (443), letsencrypt public: " public-dir)
+    (info "redirecting http(80) -> https (" https-port "), letsencrypt public: " public-dir)
     (run-jetty handler {:port 80
                         :allow-null-path-info true ; omit the trailing slash from your URLs
                         :join? false

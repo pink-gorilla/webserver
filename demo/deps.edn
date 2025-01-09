@@ -10,8 +10,8 @@
 
   :webserver {:exec-fn  demo.https/run-webserver
               :exec-args {:http {:port 8080
-                                 :host "0.0.0.0"}
-                          :https {:port 443}
+                                 :ip "0.0.0.0"}
+                          :https {:port 8443}
                           :letsencrypt {:domain "test.crbclean.com"
                                         :email "webadmin@crbclean.com"}
                           }}

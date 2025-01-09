@@ -12,7 +12,7 @@
  (defn https-creds? [{:keys [certificate]}]
    (fs/exists? certificate))
 
- (defn start-https [{:keys [https handler https-a] :as _this}]
+ (defn start-https [{:keys [handler https https-a] :as _this}]
   (let [https (merge https-default https) ; defaults are overwritten by opts
         opts (-> https
                  (rename-keys {:port :ssl-port
