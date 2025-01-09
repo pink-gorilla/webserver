@@ -7,12 +7,13 @@
 (defn wrap-bidi [routes-backend]
   (fn [{:keys [uri path-info] :as req}]
     (let [path (or path-info uri)
-          _ (info "path: " path)
+          ;_ (info "path: " path)
           {:keys [handler route-params] :as match-context}
           (bidi/match-route* routes-backend path req)
-          _ (info "path: " path)]
-      (info "route params:  " route-params)
-      (info "handler: " handler)
+          ;_ (info "path: " path)
+          ]
+      ;(info "route params:  " route-params)
+      ;(info "handler: " handler)
       (bidi.ring/request
        handler
        (-> req

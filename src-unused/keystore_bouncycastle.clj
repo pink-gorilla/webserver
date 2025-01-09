@@ -1,5 +1,10 @@
 (ns modular.webserver.https.letsencrypt.keystore-bouncycastle)
 
+
+  ; requires java/bouncycastle to be installed.
+  ; guix has the package: java-bouncycastle
+  ; :get-certificates {:exec-fn  demo.https/get-certificates}
+
 ;; Concept:
 ;;
 ;; Converts a .pem and a .crt to a keystore.jks (p12) file. The first

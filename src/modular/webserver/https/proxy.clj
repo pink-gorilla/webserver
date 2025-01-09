@@ -5,12 +5,17 @@
    [ring.util.response :as response]
    [reitit.ring :as ring]
    [ring.adapter.jetty :refer [run-jetty]]
+   [modular.webserver.default :refer [letsencrypt-default https-default]]
    [modular.webserver.https.letsencrypt :refer [renew-cert convert-cert]]))
 
 (defn redirect-handler [port]
   (fn [{:keys [uri server-name scheme query-string] :as req}]
-    (info "redirecting request: " uri)
-    (let [redirect-url (str scheme "://" server-name ":" port uri (when query-string (str "?" query-string)))]
+    #_(info "req: " (select-keys req [ :ssl-client-cert :protocol :remote-addr :server-port :uri 
+                                    :server-name :query-string :path-params :body :scheme ]))
+    #_(info "keys: " (keys req))
+    (let [redirect-url  (str "https://" server-name ":" port uri (when query-string (str "?" query-string)))
+          ]
+      (info "redirecting " uri " to: " redirect-url)  
       (response/redirect redirect-url))))
 
 (defn static-file-handler [path]
@@ -42,7 +47,8 @@
   [{:keys [letsencrypt https]
     :as config}]
   (let [{:keys [path]
-         :or {path ".letsencrypt"}} letsencrypt
+         :or {path (:path letsencrypt-default)}} letsencrypt
+        https-port (or (:port https) (:port https-default))
         public-dir (str path "/public")
         handler (ring/ring-handler
                  (ring/router
@@ -50,7 +56,7 @@
                    ["/.well-known/acme-challenge/*" (static-file-handler public-dir)]
                    ["/.well-known/trigger/certificate-get" (certificate-get-handler config)]
                    ["/.well-known/trigger/certificate-import" (certificate-import-handler config)]
-                   ["*" (redirect-handler 443)]]
+                   ["*" (redirect-handler https-port)]]
                   {:conflicts (constantly nil)})
                  (ring/create-default-handler))]
     (info "redirecting http(80) -> https (443), letsencrypt public: " public-dir)

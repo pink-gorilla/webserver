@@ -1,38 +1,33 @@
 (ns demo.https
   (:require
-   [modular.webserver.server.jetty :refer [run-jetty-server]]
+   [hiccup.page :as page]
    [modular.webserver.handler.not-found :refer [not-found-handler]]
    [modular.webserver.handler.files :refer [->FilesMaybe ->ResourcesMaybe]]
+   [modular.webserver.handler.html :refer [html-response]]
    [modular.webserver.middleware.bidi :refer [wrap-bidi]]
    [modular.webserver.middleware.exception :refer [wrap-fallback-exception]]
-   [modular.webserver.middleware.api :refer [wrap-api-handler]]
-   [modular.webserver.page :refer [page]]))
+   [modular.webserver.server :refer [start-webserver]]))
 
 (defn main-page [_]
-  (page {:title "demo-123"
-         :author "goblin77"}
-        [:div
-         [:h1 "hello, world!"]
-         [:a {:href "/r/demo.txt"} [:p "demo.txt"]]
-         [:a {:href "/big-void"} [:p "big-void (unknown route)"]]]))
-
+  (println "rendering main page..")
+  (html-response
+   (page/html5
+    {:mode :html}
+    [:div
+     [:h1 "hello, world!"]
+     [:a {:href "/r/demo.txt"} [:p "demo.txt"]]
+     [:a {:href "/big-void"} [:p "big-void (unknown route)"]]])))
 
 (def routes
   ["/" {"" main-page
-        "r/" (->ResourcesMaybe {:prefix "public"}) 
+        "r/" (->ResourcesMaybe {:prefix "public"})
         #{"r" "public"} (->FilesMaybe {:dir "public-web"})
         true not-found-handler}])
 
-(defn run-webserver [& _]
+(defn run-webserver [opts]
+  (println "opts: " opts)
   (let [ring-handler (-> (wrap-bidi routes)
                          (wrap-fallback-exception))]
-    (run-jetty-server ring-handler nil
-                      {:port 8080
-                       :host "0.0.0.0"
-                       :join? true
-                       :ssl-port 8443
-                       :keystore "./certs/keystore.p12"
-                       :key-password "password"; Password you gave when creating the keystore
-                       })))
+    (start-webserver ring-handler opts)))
 
 

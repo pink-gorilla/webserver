@@ -2,10 +2,12 @@
   (:require
    [taoensso.timbre :as timbre :refer [info error]]
    [babashka.fs :as fs]
-   [babashka.process :refer [shell]]))
+   [babashka.process :refer [shell]]
+   [modular.webserver.default :refer [letsencrypt-default https-default]]
+   ))
 
 (defn renew-cert [{:keys [path domain email]
-                   :or {path ".letsencrypt"}}]
+                   :or {path (:path letsencrypt-default)}}]
   (let [config-path (str path "/config")
         work-path (str path "/work")
         log-path (str path "/log")
@@ -33,11 +35,11 @@
   "converts a letsencrypt certificate to a jetty certificate.
    throws on failure"
   [{:keys [path domain _email ]
-    :or {path ".letsencrypt"}
+    :or {path (:path letsencrypt-default)}
     :as letsencrypt_opts}
    {:keys [certificate password]
-    :or {certificate ".https-certificates/keystore.p12"
-         password "123456789"}
+    :or {certificate (:certificate https-default) 
+         password (:password https-default)}
     :as https_opts}]
   (assert (map? letsencrypt_opts) "letsencrypt_opts needs to be a map")
   (assert (map? https_opts) "https_opts needs to be a map")

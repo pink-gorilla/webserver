@@ -3,17 +3,23 @@
         org.pinkgorilla/webserver {:local/root ".." :deps/manifest :deps}}
 
  :aliases
- {:proxy {:exec-fn  modular.webserver.https.proxy/start-proxy
-          :exec-args {:letsencrypt {:domain "test.crbclean.com"
-                                    :email "webadmin@crbclean.com"}
-                      :https {}}}
+ {:proxy-only {:exec-fn  modular.webserver.https.proxy/start-proxy
+               :exec-args {:letsencrypt {:domain "test.crbclean.com"
+                                         :email "webadmin@crbclean.com"}
+                           :https {}}}
 
+  :webserver {:exec-fn  demo.https/run-webserver
+              :exec-args {:http {:port 8080
+                                 :host "0.0.0.0"}
+                          :https {:port 443}
+                          :letsencrypt {:domain "test.crbclean.com"
+                                        :email "webadmin@crbclean.com"}
+                          }}
 
-  :webserver {:exec-fn  demo.https/run-webserver}
-
-  ; requires java/bouncycastle to be installed.
-  ; guix has the package: java-bouncycastle
-  ; :get-certificates {:exec-fn  demo.https/get-certificates}
+ :http {:exec-fn  demo.https/run-webserver
+        :exec-args {:http {:port 8080
+                           :host "0.0.0.0"}
+                    :https {:port 0}}}
 
 
 ;
