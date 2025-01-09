@@ -7,12 +7,12 @@
 
 (defn start-jetty [handler {:keys [port] :as opts}]
   (info "Starting Jetty web server port:" port  "..")
-  (let [default-opts {:allow-null-path-info true ; omit the trailing slash from your URLs
-                      :ws-max-idle-time 3600000 ; important for nrepl middleware 
-                      }
-        opts (merge default-opts
+  (let [opts (merge {:allow-null-path-info true ; omit the trailing slash from your URLs
+                     :ws-max-idle-time 3600000 ; important for nrepl middleware 
+                     }
                     opts
                     {:join? false})]
+    (info "opts: " opts)
     (run-jetty handler opts)))
 
 (defn stop-jetty

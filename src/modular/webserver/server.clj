@@ -14,8 +14,11 @@
 
  (defn start-https [{:keys [https handler https-a] :as _this}]
   (let [https (merge https-default https) ; defaults are overwritten by opts
-        opts (rename-keys https {:certificate :keystore
-                                 :password :key-password})
+        opts (-> https
+                 (rename-keys {:port :ssl-port
+                               :certificate :keystore
+                               :password :key-password})
+                 (assoc :ssl? true ))
        j (if (= (:port https) 0)
            (info "https server disabled.")
            (if (https-creds? https)
