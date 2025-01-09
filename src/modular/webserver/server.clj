@@ -13,10 +13,7 @@
    (fs/exists? certificate))
 
  (defn start-https [{:keys [https handler https-a] :as _this}]
-  (let [https  (assoc https :port (or (:port https)
-                                      (:port https-default))
-                            :ip (or (:ip https)
-                                      (:ip https-default)))
+  (let [https (merge https-default https) ; defaults are overwritten by opts
         opts (rename-keys https {:certificate :keystore
                                  :password :key-password})
        j (if (= (:port https) 0)
@@ -37,11 +34,8 @@
    (start-https this))
  
  (defn start-webserver [handler {:keys [http https letsencrypt] :as opts}]
-   (let [http (jetty/start-jetty handler (assoc http
-                                                :port (or (:port http)
-                                                          (:port http-default))
-                                                :ip (or (:ip http)
-                                                        (:ip http-default))))
+   (let [http (merge http-default http) ; defaults are overwritten by opts
+         http (jetty/start-jetty handler http)
          this {:handler handler
                :http http
                :https https
