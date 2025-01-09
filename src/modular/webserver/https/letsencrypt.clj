@@ -22,17 +22,19 @@
   ; When using the webroot method the Certbot client places a challenge response inside domain.com/.well-known/acme-challenge/ 
   ; which is used for validation. When validation is complete, challenge file is removed from the target directory
     (let [r (shell {:out :string}
-                  "certbot" "certonly"
-                  "--non-interactive" "--agree-tos"
-                  "-m" email
-                  "--webroot" "--webroot-path" webroot-path
-                  "-d" domain
-                  "--work-dir" work-path
-                  "--config-dir" config-path
-                  "--logs-dir" log-path)
-           ]
-     (info "renewal out: " ) ;str/split-lines first
-     (info "first line: " (-> r :out str/split-lines first)) 
+                   "certbot" "certonly"
+                   "--non-interactive" "--agree-tos"
+                   "-m" email
+                   "--webroot" "--webroot-path" webroot-path
+                   "-d" domain
+                   "--work-dir" work-path
+                   "--config-dir" config-path
+                   "--logs-dir" log-path)
+          ]
+      (info "renewal out: " (-> r :out))
+      (info "first line: " (-> r :out str/split-lines first)) 
+      ; first line:  Account registered.
+
       r
       )
   ))
