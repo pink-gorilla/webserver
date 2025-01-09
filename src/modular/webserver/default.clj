@@ -1,6 +1,5 @@
 (ns modular.webserver.default)
 
-
 (def http-default
   {:port 8080
    :ip "0.0.0.0"})

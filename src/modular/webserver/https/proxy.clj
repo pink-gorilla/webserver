@@ -10,12 +10,11 @@
 
 (defn redirect-handler [port]
   (fn [{:keys [uri server-name scheme query-string] :as req}]
-    #_(info "req: " (select-keys req [ :ssl-client-cert :protocol :remote-addr :server-port :uri 
-                                    :server-name :query-string :path-params :body :scheme ]))
+    #_(info "req: " (select-keys req [:ssl-client-cert :protocol :remote-addr :server-port :uri
+                                      :server-name :query-string :path-params :body :scheme]))
     #_(info "keys: " (keys req))
-    (let [redirect-url  (str "https://" server-name ":" port uri (when query-string (str "?" query-string)))
-          ]
-      (info "redirecting " uri " to: " redirect-url)  
+    (let [redirect-url  (str "https://" server-name ":" port uri (when query-string (str "?" query-string)))]
+      (info "redirecting " uri " to: " redirect-url)
       (response/redirect redirect-url))))
 
 (defn static-file-handler [path]
@@ -62,7 +61,6 @@
     (info "redirecting http(80) -> https (" https-port "), letsencrypt public: " public-dir)
     (run-jetty handler {:port 80
                         :allow-null-path-info true ; omit the trailing slash from your URLs
-                        :join? false
-                        })))
+                        :join? false})))
 
 

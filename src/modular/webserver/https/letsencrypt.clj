@@ -12,12 +12,12 @@
         work-path (str path "/work")
         log-path (str path "/log")
         webroot-path (str path "/public")]
-  (fs/create-dirs config-path)
-  (fs/create-dirs work-path)
-  (fs/create-dirs log-path)
-  (fs/create-dirs webroot-path)
-  (assert domain "domain needs to be a string and a valid domain (www.demo.com)")  
-  (assert email "email needs to be a string and a valid email (webmaster@demo.com)")
+    (fs/create-dirs config-path)
+    (fs/create-dirs work-path)
+    (fs/create-dirs log-path)
+    (fs/create-dirs webroot-path)
+    (assert domain "domain needs to be a string and a valid domain (www.demo.com)")
+    (assert email "email needs to be a string and a valid email (webmaster@demo.com)")
   ; certbot either needs to run as root, or set --config-dir, --work-dir, and --logs-dir to writeable paths.
   ; When using the webroot method the Certbot client places a challenge response inside domain.com/.well-known/acme-challenge/ 
   ; which is used for validation. When validation is complete, challenge file is removed from the target directory
@@ -29,24 +29,21 @@
                    "-d" domain
                    "--work-dir" work-path
                    "--config-dir" config-path
-                   "--logs-dir" log-path)
-          ]
+                   "--logs-dir" log-path)]
       (info "renewal out: " (-> r :out))
-      (info "first line: " (-> r :out str/split-lines first)) 
+      (info "first line: " (-> r :out str/split-lines first))
       ; first line:  Account registered.
       ; first line:  Certificate not yet due for renewal
-      r
-      )
-  ))
+      r)))
 
 (defn convert-cert
   "converts a letsencrypt certificate to a jetty certificate.
    throws on failure"
-  [{:keys [path domain _email ]
+  [{:keys [path domain _email]
     :or {path (:path letsencrypt-default)}
     :as letsencrypt_opts}
    {:keys [certificate password]
-    :or {certificate (:certificate https-default) 
+    :or {certificate (:certificate https-default)
          password (:password https-default)}
     :as https_opts}]
   (assert (map? letsencrypt_opts) "letsencrypt_opts needs to be a map")

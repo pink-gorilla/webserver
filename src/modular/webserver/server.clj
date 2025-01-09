@@ -14,7 +14,7 @@
  (defn- https-creds? [{:keys [certificate]}]
    (fs/exists? certificate))
 
- (defn start-https [{:keys [handler https https-a] :as _this}]
+ (defn- start-https [{:keys [handler https https-a] :as _this}]
   (let [opts (-> https
                  (rename-keys {:port :ssl-port
                                :certificate :keystore
@@ -29,7 +29,7 @@
          (reset! https-a j)
        ))
 
- (defn stop-https [{:keys [https-a] :as _this}]
+ (defn- stop-https [{:keys [https-a] :as _this}]
    (when @https-a
      (jetty/stop-jetty @https-a)
      (reset! https-a nil)))
@@ -56,8 +56,6 @@
           (convert-cert letsencrypt https)
           (restart-https this)))))
 
-
-
  (defn start-webserver [handler {:keys [http https letsencrypt] :as opts}]
    (let [http (merge http-default http) ; defaults are overwritten by opts
          https (merge https-default https) ; defaults are overwritten by opts
@@ -75,7 +73,9 @@
      (renew-letsencrypt-certificate this)
      this))
 
- (defn stop [{:keys [http-h https] :as this}]
+ (defn stop [{:keys [http-h https proxy] :as this}]
    (when http-h
      (jetty/stop-jetty http-h))
-   (stop-https this))
+   (stop-https this)
+   (when proxy 
+     (jetty/stop-jetty proxy)))
