@@ -46,12 +46,14 @@
            line1 (-> r :out str/split-lines first)]
         ; first line:  Account registered.
         ; first line:  Certificate not yet due for renewal
-        ;  Successfully  receivedcertificat
+        ;  Successfully  received certificat
+       ;  Renewing an existing certificate for test.crbclean.com
        (info "full result: " (:out r))
        (info "renewal result: " line1)
-       (when (or (str/includes? line1 "Account registered")
+       (when (or (str/includes? line1 "Account registered") ; first time
                  (str/includes? line1 "renewed")
-                 (str/includes? line1 "received"))
+                 (str/includes? line1 "received")
+                 (str/includes? line1 "Renewing an existing certificate"))
           (info "new certificate received.. converting")
           (convert-cert letsencrypt https)
           (restart-https this)))))

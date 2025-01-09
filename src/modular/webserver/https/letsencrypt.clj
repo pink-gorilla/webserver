@@ -33,8 +33,8 @@
                    "--logs-dir" log-path
                    (when force-renewal
                      "--force-renewal"))]
-      (info "renewal out: " (-> r :out))
-      (info "first line: " (-> r :out str/split-lines first))
+      ;(info "renewal out: " (-> r :out))
+      ;(info "first line: " (-> r :out str/split-lines first))
       ; first line:  Account registered.
       ; first line:  Certificate not yet due for renewal
       r)))
