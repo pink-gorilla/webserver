@@ -6,8 +6,9 @@
    [babashka.process :refer [shell]]
    [modular.webserver.default :refer [letsencrypt-default https-default]]))
 
-(defn renew-cert [{:keys [path domain email]
-                   :or {path (:path letsencrypt-default)}}]
+(defn renew-cert [{:keys [path domain email force-renewal]
+                   :or {path (:path letsencrypt-default)
+                        force-renewal false}}]
   (let [config-path (str path "/config")
         work-path (str path "/work")
         log-path (str path "/log")
@@ -29,7 +30,9 @@
                    "-d" domain
                    "--work-dir" work-path
                    "--config-dir" config-path
-                   "--logs-dir" log-path)]
+                   "--logs-dir" log-path
+                   (when force-renewal
+                     "--force-renewal"))]
       (info "renewal out: " (-> r :out))
       (info "first line: " (-> r :out str/split-lines first))
       ; first line:  Account registered.

@@ -13,7 +13,8 @@
                                  :ip "0.0.0.0"}
                           :https {:port 443}
                           :letsencrypt {:domain "test.crbclean.com"
-                                        :email "webadmin@crbclean.com"}
+                                        :email "webadmin@crbclean.com"
+                                        :force-renewal true}
                           }}
 
  :http {:exec-fn  demo.https/run-webserver
