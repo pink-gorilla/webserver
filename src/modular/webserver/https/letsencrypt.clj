@@ -1,10 +1,10 @@
 (ns modular.webserver.https.letsencrypt
   (:require
+   [clojure.string :as str]
    [taoensso.timbre :as timbre :refer [info error]]
    [babashka.fs :as fs]
    [babashka.process :refer [shell]]
-   [modular.webserver.default :refer [letsencrypt-default https-default]]
-   ))
+   [modular.webserver.default :refer [letsencrypt-default https-default]]))
 
 (defn renew-cert [{:keys [path domain email]
                    :or {path (:path letsencrypt-default)}}]
@@ -31,7 +31,8 @@
                   "--config-dir" config-path
                   "--logs-dir" log-path)
            ]
-     (info "renewal out: " (-> r :out)) ;str/split-lines first
+     (info "renewal out: " ) ;str/split-lines first
+     (info "first line: " (-> r :out str/split-lines first)) 
       r
       )
   ))
