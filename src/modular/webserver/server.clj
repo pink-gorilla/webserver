@@ -18,7 +18,8 @@
                  (rename-keys {:port :ssl-port
                                :certificate :keystore
                                :password :key-password})
-                 (assoc :ssl? true ))
+                 (assoc :ssl? true 
+                        :port 0))
        j (if (= (:port https) 0)
            (info "https server disabled.")
            (if (https-creds? https)
