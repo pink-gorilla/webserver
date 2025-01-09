@@ -45,7 +45,7 @@
          this {:handler handler
                :http http
                :https https
-               :https-a (atom (start-https https))
+               :https-a (atom nil)
                :proxy (when-not (= (:port https) 0) 
                         (start-proxy opts))}]
      (start-https this)
