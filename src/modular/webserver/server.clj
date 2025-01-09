@@ -15,16 +15,20 @@
  (defn https-creds? [{:keys [certificate]}]
    (fs/exists? certificate))
 
- (defn start-https [{:keys [https handler] :as _this}]
-   (when (https-creds? https)
-     (let [opts (-> https
+ (defn start-https [{:keys [https handler https-a] :as _this}]
+   (when (and (https? https)
+              (https-creds? https))
+       (let [opts (-> https
                     (assoc :port (or (:port https)
                                      (:port https-default))
                            :ip (or (:ip https)
                                    (:ip https-default)))
                     (rename-keys {:certificate :keystore
-                                  :password :key-password}))]
-       (jetty/start-jetty handler opts))))
+                                  :password :key-password}))
+             j (jetty/start-jetty handler opts)
+             ]
+         (reset! https-a j)
+       )))
 
  (defn stop-https [{:keys [https-a] :as _this}]
    (when @https-a
@@ -35,19 +39,19 @@
    (stop-https this)
    (start-https this))
  
- (defn start-webserver [handler {:keys [http https letsencrypt] :as this}]
+ (defn start-webserver [handler {:keys [http https letsencrypt] :as opts}]
    (let [http (jetty/start-jetty handler (assoc http
                                                 :port (or (:port http)
-                                                               (:port http-default))
+                                                          (:port http-default))
                                                 :ip (or (:ip http)
-                                                           (:ip http-default))))
-         https-a (atom (start-https https))]
-     {:handler handler
-      :http http
-      :https https
-      :https-a https-a
-      :proxy (when (https? https) (start-proxy this))
-      }))
+                                                        (:ip http-default))))
+         this {:handler handler
+               :http http
+               :https https
+               :https-a (atom (start-https https))
+               :proxy (when (https? https) (start-proxy opts))}]
+     (start-https this)
+     this))
 
  (defn stop [{:keys [http https] :as this}]
    (when http
