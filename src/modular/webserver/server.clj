@@ -46,7 +46,8 @@
                :http http
                :https https
                :https-a (atom (start-https https))
-               :proxy (when (https? https) (start-proxy opts))}]
+               :proxy (when-not (= (:port https) 0) 
+                        (start-proxy opts))}]
      (start-https this)
      this))
 
