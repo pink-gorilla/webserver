@@ -9,26 +9,23 @@
 
  ; https
 
-  (defn https? [{:keys [port]}]
-   (not (= port 0)))
-
  (defn https-creds? [{:keys [certificate]}]
    (fs/exists? certificate))
 
  (defn start-https [{:keys [https handler https-a] :as _this}]
-   (when (and (https? https)
-              (https-creds? https))
-       (let [opts (-> https
-                    (assoc :port (or (:port https)
-                                     (:port https-default))
-                           :ip (or (:ip https)
-                                   (:ip https-default)))
-                    (rename-keys {:certificate :keystore
-                                  :password :key-password}))
-             j (jetty/start-jetty handler opts)
-             ]
+  (let [https  (assoc https :port (or (:port https)
+                                      (:port https-default))
+                            :ip (or (:ip https)
+                                      (:ip https-default)))
+        opts (rename-keys https {:certificate :keystore
+                                 :password :key-password})
+       j (if (= (:port https) 0)
+           (info "https server disabled.")
+           (if (https-creds? https)
+             (jetty/start-jetty handler opts)
+             (info "no https certficiate found: " (:certificate https))))]
          (reset! https-a j)
-       )))
+       ))
 
  (defn stop-https [{:keys [https-a] :as _this}]
    (when @https-a
