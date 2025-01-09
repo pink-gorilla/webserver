@@ -22,7 +22,18 @@
   ; certbot either needs to run as root, or set --config-dir, --work-dir, and --logs-dir to writeable paths.
   ; When using the webroot method the Certbot client places a challenge response inside domain.com/.well-known/acme-challenge/ 
   ; which is used for validation. When validation is complete, challenge file is removed from the target directory
-    (let [r (shell {:out :string}
+    (let [r (if force-renewal
+              (shell {:out :string}
+                     "certbot" "certonly"
+                     "--non-interactive" "--agree-tos"
+                     "-m" email
+                     "--webroot" "--webroot-path" webroot-path
+                     "-d" domain
+                     "--work-dir" work-path
+                     "--config-dir" config-path
+                     "--logs-dir" log-path
+                     "--force-renewal")
+              (shell {:out :string}
                    "certbot" "certonly"
                    "--non-interactive" "--agree-tos"
                    "-m" email
@@ -30,9 +41,7 @@
                    "-d" domain
                    "--work-dir" work-path
                    "--config-dir" config-path
-                   "--logs-dir" log-path
-                   (when force-renewal
-                     "--force-renewal"))]
+                   "--logs-dir" log-path))]
       ;(info "renewal out: " (-> r :out))
       ;(info "first line: " (-> r :out str/split-lines first))
       ; first line:  Account registered.
