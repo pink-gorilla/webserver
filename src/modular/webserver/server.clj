@@ -19,7 +19,7 @@
                                :certificate :keystore
                                :password :key-password})
                  (assoc :ssl? true 
-                        :port 0))
+                        :port 0)) ; port 0 means dont listen on http.
        j (if (= (:port https) 0)
            (info "https server disabled.")
            (if (https-creds? https)
