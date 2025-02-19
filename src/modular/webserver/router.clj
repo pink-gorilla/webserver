@@ -22,7 +22,8 @@
   [; ["/" {:handler (fn [_]
    ;                 (response/resource-response "public/index.html"))}]
    ["/r/*" (ring/create-resource-handler {:root "public"})]
-   ;["/r/*" (ring/create-resource-handler {:root "public" :path "/r/"})]
+   ["/code/*" (ring/create-resource-handler {:root ""})]
+      ;["/r/*" (ring/create-resource-handler {:root "public" :path "/r/"})]
    ])
 
 (defn create-routes [user-routes exts]
