@@ -2,11 +2,10 @@
   (:require
    [clojure.tools.build.api :as b]
    [org.corfield.build :as bb] ; https://github.com/seancorfield/build-clj
-   [deps-deploy.deps-deploy :as dd]))
-
+   ))
 
 (def lib 'org.pinkgorilla/webserver)
-(def version (format "0.0.%s" (b/git-count-revs nil)))
+(def version (format "0.2.%s" (b/git-count-revs nil)))
 
 (defn jar "build the JAR" [opts]
   (println "Building the JAR")

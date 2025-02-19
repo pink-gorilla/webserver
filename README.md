@@ -3,14 +3,9 @@
 
 Core functions
 
-- ring jetty/sente/undertow
-- resource handler
-- api encoding handler
-- bidi routing
-- https certificates
-
-depends on
-- modular .. encoding
+- web router with reitit (that is extensible)
+- jetty ring handler with letsencrypt https certificates
+- depends on modular for transit encoding
 
 
 # demo https:
