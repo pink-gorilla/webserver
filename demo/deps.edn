@@ -3,25 +3,26 @@
         org.pinkgorilla/webserver {:local/root ".." :deps/manifest :deps}}
 
  :aliases
- {:proxy-only {:exec-fn  modular.webserver.https.proxy/start-proxy
+ {:proxy-only {:exec-fn  webserver.https.proxy/start-proxy
                :exec-args {:letsencrypt {:domain "test.crbclean.com"
                                          :email "webadmin@crbclean.com"}
                            :https {}}}
 
-  :webserver {:exec-fn  demo.https/run-webserver
-              :exec-args {:http {:port 8080
-                                 :ip "0.0.0.0"}
-                          :https {:port 443}
-                          :letsencrypt {:domain "test.crbclean.com"
-                                        :email "webadmin@crbclean.com"
-                                        ;:force-renewal true ; to test renewal
-                                        }
-                          }}
+  :http {:exec-fn  demo.webserver/run-webserver
+         :exec-args {:http {:port 8080
+                            :host "0.0.0.0"}
+                     :https {:port 0}}}
 
- :http {:exec-fn  demo.https/run-webserver
-        :exec-args {:http {:port 8080
-                           :host "0.0.0.0"}
-                    :https {:port 0}}}
+  :https {:exec-fn  demo.webserver/run-webserver
+          :exec-args {:http {:port 8080
+                             :ip "0.0.0.0"}
+                      :https {:port 443}
+                      :letsencrypt {:domain "test.crbclean.com"
+                                    :email "webadmin@crbclean.com"
+                                        ;:force-renewal true ; to test renewal
+                                    }}}
+
+
 
 
 ;

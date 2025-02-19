@@ -1,10 +1,10 @@
-(ns modular.webserver.https.letsencrypt
+(ns webserver.https.letsencrypt
   (:require
-   [clojure.string :as str]
+   ;[clojure.string :as str]
    [taoensso.timbre :as timbre :refer [info error]]
    [babashka.fs :as fs]
    [babashka.process :refer [shell]]
-   [modular.webserver.default :refer [letsencrypt-default https-default]]))
+   [webserver.default :refer [letsencrypt-default https-default]]))
 
 (defn renew-cert [{:keys [path domain email force-renewal]
                    :or {path (:path letsencrypt-default)

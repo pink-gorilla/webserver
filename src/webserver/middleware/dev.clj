@@ -1,4 +1,4 @@
-(ns modular.webserver.middleware.dev
+(ns webserver.middleware.dev
   (:require
    [taoensso.timbre :refer [warn]]
    [prone.middleware :refer [wrap-exceptions]]

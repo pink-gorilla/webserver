@@ -1,4 +1,4 @@
-(ns modular.webserver.server.httpkit
+(ns webserver.server.httpkit
   (:require
    [taoensso.timbre :as timbre :refer [info]]))
 

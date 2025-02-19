@@ -1,4 +1,4 @@
-(ns modular.webserver.middleware.exception
+(ns webserver.middleware.exception
   (:require
    [clojure.string]
    [taoensso.timbre :refer [error]]))

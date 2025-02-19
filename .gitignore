@@ -28,3 +28,5 @@ creds-localhost.edn
 .~*
 .letsencrypt
 .https/certificates
+.gorilla/*.edn
+demo/.gorilla/*.edn
