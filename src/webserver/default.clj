@@ -1,4 +1,4 @@
-(ns modular.webserver.default)
+(ns webserver.default)
 
 (def http-default
   {:port 8080

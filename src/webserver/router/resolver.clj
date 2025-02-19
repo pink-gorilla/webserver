@@ -1,4 +1,4 @@
-(ns modular.webserver.router.resolver
+(ns webserver.router.resolver
   (:require
    [clojure.string]
    [taoensso.timbre :refer [debug info warn error]]

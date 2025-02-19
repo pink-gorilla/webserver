@@ -1,4 +1,4 @@
-(ns modular.webserver.handler.html
+(ns webserver.handler.html
   (:require
    [ring.util.response :as response]))
 

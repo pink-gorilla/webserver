@@ -1,4 +1,4 @@
-(ns modular.webserver.router.ext
+(ns webserver.router.ext
   (:require
    [extension :refer [get-extensions]]))
 

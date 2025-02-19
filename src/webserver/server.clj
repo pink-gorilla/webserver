@@ -1,13 +1,14 @@
-(ns modular.webserver.server
+(ns webserver.server
    (:require
-    [taoensso.timbre :as timbre :refer [info error]]
-    [babashka.fs :as fs]
     [clojure.set :refer [rename-keys]]
     [clojure.string :as str]
-    [modular.webserver.server.jetty :as jetty]
-    [modular.webserver.default :refer [http-default letsencrypt-default https-default]]
-    [modular.webserver.https.letsencrypt :refer [renew-cert convert-cert]]
-    [modular.webserver.https.proxy :refer [start-proxy]]))
+    [taoensso.timbre :as timbre :refer [info error]]
+    [babashka.fs :as fs]
+    [webserver.server.jetty :as jetty]
+    [webserver.https.letsencrypt :refer [renew-cert convert-cert]]
+    [webserver.https.proxy :refer [start-proxy]]
+    [webserver.default :refer [http-default letsencrypt-default https-default]]
+    ))
 
  ; https
 

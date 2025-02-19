@@ -1,4 +1,4 @@
-(ns modular.webserver.handler.not-found
+(ns webserver.handler.not-found
   (:require
    [ring.util.response :as response]))
 

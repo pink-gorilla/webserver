@@ -3,10 +3,10 @@
    [reitit.core :as r]
     [reitit.ring :as ring]
    [ring.util.response :as response]
-    [modular.webserver.middleware.ctx :refer [ctx-middleware]]
+    [webserver.middleware.ctx :refer [ctx-middleware]]
    ;[modular.webserver.router :as router]
    [demo.fortune :as fc]
-   [modular.webserver.router.ext :refer [get-api-routes get-routes]]
+   [webserver.router.ext :refer [get-api-routes get-routes]]
     [extension :refer [discover get-extensions]]
    ))
 

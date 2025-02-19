@@ -2,8 +2,8 @@
    (:require
     [hiccup.page :as page]
     [extension :refer [discover]]
-    [modular.webserver.handler.html :refer [html-response]]
-    [modular.webserver.router :as router]
+    [webserver.handler.html :refer [html-response]]
+    [webserver.router :as router]
     [demo.fortune :as fc] ; needed to create the context
     ))
 
@@ -42,6 +42,12 @@
 
 (def exts (discover))
 
-(router/create-routes user-routes exts)
+(router/create-routes {:ctx ctx 
+                       :exts exts} user-routes)
 
-(def r (router/create-router ctx user-routes exts))
+(def r (router/create-router {:ctx ctx
+                              :exts exts} user-routes))
+
+
+(def h (router/create-handler {:ctx ctx
+                               :exts exts} user-routes))

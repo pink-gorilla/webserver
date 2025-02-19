@@ -1,4 +1,4 @@
-(ns modular.webserver.middleware.transit
+(ns webserver.middleware.transit
   (:require
    [modular.encoding.transit :as e]
    [muuntaja.core :as m]))

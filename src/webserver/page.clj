@@ -1,4 +1,4 @@
-(ns modular.webserver.page
+(ns webserver.page
   (:require
    [hiccup.page :as page]))
 

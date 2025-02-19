@@ -1,4 +1,4 @@
-(ns modular.webserver.middleware.cors
+(ns webserver.middleware.cors
   (:require
    ;[ring.middleware.cors :refer [wrap-cors]]
    [ring.util.response :refer [response]]))

@@ -3,7 +3,7 @@
         org.pinkgorilla/webserver {:local/root ".." :deps/manifest :deps}}
 
  :aliases
- {:proxy-only {:exec-fn  modular.webserver.https.proxy/start-proxy
+ {:proxy-only {:exec-fn  webserver.https.proxy/start-proxy
                :exec-args {:letsencrypt {:domain "test.crbclean.com"
                                          :email "webadmin@crbclean.com"}
                            :https {}}}

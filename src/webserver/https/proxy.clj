@@ -1,12 +1,12 @@
-(ns modular.webserver.https.proxy
+(ns webserver.https.proxy
   (:require
    [babashka.fs :as fs]
    [taoensso.timbre :as timbre :refer [info error]]
    [ring.util.response :as response]
-   [reitit.ring :as ring]
    [ring.adapter.jetty :refer [run-jetty]]
-   [modular.webserver.default :refer [letsencrypt-default https-default]]
-   [modular.webserver.https.letsencrypt :refer [renew-cert convert-cert]]))
+   [reitit.ring :as ring]
+   [webserver.default :refer [letsencrypt-default https-default]]
+   [webserver.https.letsencrypt :refer [renew-cert convert-cert]]))
 
 (defn redirect-handler [port]
   (fn [{:keys [uri server-name scheme query-string] :as req}]

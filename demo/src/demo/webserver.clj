@@ -1,11 +1,7 @@
 (ns demo.webserver
   (:require
-   [modular.webserver.server :refer [start-webserver]]
-   [modular.webserver.router :as router]
-   [demo.routes :refer [r]]))
-
-
-(def h (router/create-handler r))
+   [webserver.server :refer [start-webserver]]
+   [demo.routes :refer [h]]))
 
 
 (defn run-webserver [webserver-opts]
