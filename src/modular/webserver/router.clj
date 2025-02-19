@@ -21,8 +21,8 @@
 (def default-routes 
   [["/" {:handler (fn [_]
                     (response/resource-response "public/index.html"))}]
-   ["/r/*" (ring/create-resource-handler)]
-         ;["/r/*" (ring/create-resource-handler {:path "public" :root "/r/"})]
+   ["/r/*" (ring/create-resource-handler {:root "public"})]
+   ;["/r/*" (ring/create-resource-handler {:root "public" :path "/r/"})]
    ])
 
 (defn create-routes [user-routes exts]
