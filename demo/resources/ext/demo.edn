@@ -10,7 +10,8 @@
               "bindata"  demo.handler.binary/binary-handler}
  
  :web/routes [["/cookie" {:get demo.fortune/fortune-handler
-                          :middleware [webserver.middleware.ctx/ctx-middleware]
+                          :middleware [webserver.middleware.ctx/ctx-middleware
+                                       ]
                           :services #{:fortune-db}}]
               ["/error" {:get demo.error/error-handler}]
               
