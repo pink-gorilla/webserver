@@ -2,10 +2,7 @@
    (:require
     [hiccup.page :as page]
     [extension :refer [discover]]
-    [modular.webserver.handler.not-found :refer [not-found-handler]]
-    [modular.webserver.handler.files :refer [->FilesMaybe ->ResourcesMaybe]]
     [modular.webserver.handler.html :refer [html-response]]
-    [modular.webserver.middleware.exception :refer [wrap-fallback-exception]]
     [modular.webserver.router :as router]
     [demo.fortune :as fc] ; needed to create the context
     ))
@@ -17,8 +14,14 @@
     {:mode :html}
     [:div
      [:h1 "hello, world!"]
-     [:a {:href "/r/demo.txt"} [:p "demo.txt"]]
-     [:a {:href "/big-void"} [:p "big-void (unknown route)"]]])))
+     [:a {:href "/r/demo.txt"} [:p "demo.txt (file-handler)"]]
+     [:a {:href "/r/bongo.edn"} [:p "bongo.edn (resource-handler)"]]
+     [:a {:href "/r/maya.html#willy"} [:p "maya.html (# router test)"]]
+     [:a {:href "/big-void"} [:p "big-void (unknown route)"]]
+     [:img {:src "/r/moon.jpg"
+            :width "200px"
+            :height "200px"}]
+     ])))
 
 ;(def routes
 ;  ["/" {"" main-page
@@ -29,7 +32,8 @@
 (def ctx {:fortune-db fc/fortune-db})
 
 (def user-routes
-  [["/ping" {:get (fn [_] {:status 200 :body "pong"})}]
+  [["/" {:get main-page}]
+   ["/ping" {:get (fn [_] {:status 200 :body "pong"})}]
     ;"time"   {:get demo.handler/time-handler}
    ])
 

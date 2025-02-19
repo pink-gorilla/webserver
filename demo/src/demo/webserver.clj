@@ -8,14 +8,9 @@
 (def h (router/create-handler r))
 
 
-(defn run-webserver [opts]
-  (println "opts: " opts)
+(defn run-webserver [webserver-opts]
+  (println "opts: " webserver-opts)
   (let [;ring-handler (-> (wrap-bidi routes)
         ;                 (wrap-fallback-exception))
         ]
-    (start-webserver h opts)))
-
-
-;(defn handler [{{db :db} :data request}]
-;  {:status 200 :body (str "Connected to " db)})
-
+    (start-webserver h webserver-opts)))

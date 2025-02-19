@@ -18,15 +18,6 @@
     :else 
     #{services}))
 
-(set-required :a)
-(set-required #{:a})
-(set-required [:a])
-(set-required '(:a))
-
-(superset? #{0 1} #{0})
-
-(superset? #{0} #{0 1}) 
-
 (defn wrap-ctx
   [handler ctx]
   (fn

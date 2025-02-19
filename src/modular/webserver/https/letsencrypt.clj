@@ -1,6 +1,6 @@
 (ns modular.webserver.https.letsencrypt
   (:require
-   [clojure.string :as str]
+   ;[clojure.string :as str]
    [taoensso.timbre :as timbre :refer [info error]]
    [babashka.fs :as fs]
    [babashka.process :refer [shell]]
