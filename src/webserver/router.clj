@@ -55,7 +55,7 @@
      router
    ; default handler
      (ring/routes
-      (ring/create-file-handler {:root "public-web" :path "/r/"})
+      (ring/create-file-handler {:root ".gorilla/public" :path "/r/"})
       (ring/create-resource-handler {:root "public" :path "/r/"})
       (ring/create-file-handler {:root "node_modules" :path "/r/"}) ; for npm lib css loading
       (ring/create-resource-handler {:root "" :path "/code/"}) ; for goldly cljs loader. security issue

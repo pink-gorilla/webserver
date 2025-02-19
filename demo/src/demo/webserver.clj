@@ -6,7 +6,4 @@
 
 (defn run-webserver [webserver-opts]
   (println "opts: " webserver-opts)
-  (let [;ring-handler (-> (wrap-bidi routes)
-        ;                 (wrap-fallback-exception))
-        ]
-    (start-webserver h webserver-opts)))
+  (start-webserver h webserver-opts))

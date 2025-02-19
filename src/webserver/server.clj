@@ -4,6 +4,7 @@
     [clojure.string :as str]
     [taoensso.timbre :as timbre :refer [info error]]
     [babashka.fs :as fs]
+    [modular.writer :refer [write-edn-private]]
     [webserver.server.jetty :as jetty]
     [webserver.https.letsencrypt :refer [renew-cert convert-cert]]
     [webserver.https.proxy :refer [start-proxy]]
@@ -72,6 +73,7 @@
                :https-a (atom nil)
                :proxy (when-not (= (:port https) 0) 
                         (start-proxy opts))}]
+     (write-edn-private "webserver" {:http http :https https :letsencrypt letsencrypt})
      (start-https this)
      (renew-letsencrypt-certificate this)
      this))
