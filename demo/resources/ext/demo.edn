@@ -11,7 +11,10 @@
  
  :web/routes [["/cookie" {:get demo.fortune/fortune-handler
                           :middleware [modular.webserver.middleware.ctx/ctx-middleware]
-                          :services #{:fortune-db}}]]
+                          :services #{:fortune-db}}]
+              ["/error" {:get demo.error/error-handler}]
+              
+              ]
 
  :cljs-routes {""       demo.page.main/main-page
                "help"    demo.page.help/help-page

@@ -19,6 +19,7 @@
      [:a {:href "/code/demo/fortune.clj"} [:p "code handler test2"]]
      [:a {:href "/r/maya.html#willy"} [:p "maya.html (# router test)"]]
      [:a {:href "/cookie"} [:p "cookie handler (context test)"]]
+     [:a {:href "/error"} [:p "handler throws exception test"]]
      [:a {:href "/big-void"} [:p "big-void (unknown route)"]]
      [:img {:src "/r/moon.jpg"
             :width "200px"
