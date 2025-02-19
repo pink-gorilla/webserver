@@ -6,34 +6,47 @@
     [modular.webserver.middleware.ctx :refer [ctx-middleware]]
    ;[modular.webserver.router :as router]
    [demo.fortune :as fc]
+   [modular.webserver.router.ext :refer [get-api-routes get-routes]]
+    [extension :refer [discover get-extensions]]
    ))
 
 
-(def ctx {:fortune-db fc/fortune-db})
+(def exts (discover))
 
-(defn create-router [ctx]
-  ; router
-  (ring/router
-   [["/" {:handler (fn [_]
-                     (response/resource-response "public/index.html"))}]
-    ["/ping" {:get (fn [_] {:status 200 :body "pong"})}]
-    ["/cookie" {:get (fn [{:keys [ctx]}]
-                       {:status 200 :body (fc/fortune (:fortune-db ctx))})
-                :middleware [ctx-middleware]
-                :services #{:fortune-db}}]
-     ;"time"   {:get demo.handler/time-handler}
-    ["/r/*" (ring/create-resource-handler)]
-     ;["/r/*" (ring/create-resource-handler {:path "public" :root "/r/"})]
-    ]
-   {:data {:services-ctx ctx
-           :middleware [;my-middleware
-                         ;parameters/parameters-middleware
-                         ;wrap-keyword-params
-                         ;middleware-db
-                        ]}}))
+exts
+
+(get-api-routes exts)
+
+(get-routes exts)
+
+(defn convert-legacy-format [routes]
+  (if (map? routes)
+    (->> routes
+         (map (fn [[route handler]]
+                [route handler]))
+         (into []))
+    routes))
+
+(convert-legacy-format 
+{"time" {:get 'demo.handler/time-handler},
+ "timejava" {:get 'demo.handler/time-java-handler-wrapped},
+ "biditest" {:get 'demo.handler/bidi-test-handler-wrapped},
+ "test" {:get 'demo.handler.test/test-handler, :post 'demo.handler.test/test-handler},
+ "snippet" {:get 'demo.handler/snippet-handler-wrapped},
+ "bindata" 'demo.handler.binary/binary-handler} 
+ 
+ )
+
+[["time" {:get demo.handler/time-handler}]
+ ["timejava" {:get demo.handler/time-java-handler-wrapped}]
+ ["biditest" {:get demo.handler/bidi-test-handler-wrapped}]
+ ["test" {:get demo.handler.test/test-handler, :post demo.handler.test/test-handler}]
+ ["snippet" {:get demo.handler/snippet-handler-wrapped}]
+ ["bindata" demo.handler.binary/binary-handler]]
 
 
-(create-router ctx)
+
+;(create-router ctx)
 
 
 

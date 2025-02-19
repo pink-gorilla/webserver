@@ -5,7 +5,9 @@
    [ring.middleware.content-type :refer [wrap-content-type]]
    [ring.middleware.not-modified :refer [wrap-not-modified]]
    [ring.util.response :as response]
-  
+   [modular.webserver.router.ext :as discover]
+   [modular.webserver.router.resolver :refer [resolve-handler]]
+   
    ))
 
 
@@ -23,16 +25,22 @@
          ;["/r/*" (ring/create-resource-handler {:path "public" :root "/r/"})]
    ])
 
-(defn create-router [ctx user-routes]
+(defn create-routes [user-routes exts]
+  (let [discovered-routes (discover/get-routes exts)
+        discovered-routes (resolve-handler discovered-routes)]
+    (concat default-routes user-routes discovered-routes)))
+
+
+  (defn create-router [ctx user-routes exts]
   ; router
-  (ring/router
-   (concat default-routes user-routes)
-   {:data {:services-ctx ctx
-           :middleware [;my-middleware
+    (ring/router
+     (create-routes user-routes exts)
+     {:data {:services-ctx ctx
+             :middleware [;my-middleware
                          ;parameters/parameters-middleware
                          ;wrap-keyword-params
                          ;middleware-db
-                        ]}}))
+                          ]}}))
 
 (defn create-handler [router]
   (ring/ring-handler
