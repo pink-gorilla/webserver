@@ -33,7 +33,7 @@
                         (into []))
         _ (write-edn-private "routes" all-routes)
         resolved-routes (resolve-handler all-routes)]
-    (println "resolved routes: " resolved-routes)
+    ;(println "resolved routes: " resolved-routes)
     resolved-routes))
 
 
