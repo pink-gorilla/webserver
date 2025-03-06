@@ -13,3 +13,7 @@ Core functions
 ```
 clj -X:webserver
 ```
+
+notes: https needs
+ - java/bouncycastle
+ - certbot
