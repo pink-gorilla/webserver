@@ -1,6 +1,6 @@
 (ns webserver.middleware.transit
   (:require
-   [transit.io :refer [encode decode]]
+   [transit.io :refer [read-opts write-opts]]
    [muuntaja.core :as m]))
 
 (def muuntaja
@@ -8,7 +8,7 @@
    (-> m/default-options
        (update-in
         [:formats "application/transit+json" :decoder-opts]
-        (partial merge decode))
+        (partial merge (read-opts)))
        (update-in
         [:formats "application/transit+json" :encoder-opts]
-        (partial merge encode)))))
+        (partial merge (write-opts))))))
