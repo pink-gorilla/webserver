@@ -30,6 +30,7 @@
         ; modular
         org.pinkgorilla/modular {:mvn/version "0.2.64"} ; encoding + appstart
         org.pinkgorilla/extension {:mvn/version "0.0.14"} ; brings modular
+        org.pinkgorilla/transit-ajax {:mvn/version "0.1.6"}
         org.pinkgorilla/timbre {:mvn/version "0.0.8"}}
 
 
