@@ -78,6 +78,7 @@
         (error "scheduler crashed: " %)))))
 
 (defn start-webserver [handler {:keys [http https letsencrypt] :as opts}]
+  (info "starting webserver..")
   (let [http (merge http-default http) ; defaults are overwritten by opts
         https (merge https-default https) ; defaults are overwritten by opts
         letsencrypt (merge letsencrypt-default letsencrypt)
@@ -97,6 +98,7 @@
     ; start
     (start-https this)
     (renew-letsencrypt-certificate this)
+    (info "webserver started!")
     this))
 
 (defn stop-webserver [{:keys [http-h https proxy scheduler] :as this}]
