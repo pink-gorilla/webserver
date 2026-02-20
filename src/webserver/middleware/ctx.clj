@@ -1,26 +1,8 @@
 (ns webserver.middleware.ctx
   (:require
-   [clojure.set :refer [superset?]]))
-
-(defn set-required [services]
-  (cond
-    (set? services)
-    services
-
-    (seq? services)
-    (into #{} services)
-
-    (vector? services)
-    (into #{} services)
-
-    (keyword? services)
-    #{services}
-
-    (nil? services)
-    #{}
-    :else
-    (throw (ex-info "required-services needs to be a set" {}))
-    ))
+   [taoensso.timbre :as timbre :refer [error]]
+   [clojure.set :refer [superset?]]
+   [clojure.spec.alpha :as s]))
 
 (defn wrap-ctx
   [handler ctx]
@@ -32,21 +14,63 @@
      (let [request (assoc request :ctx ctx)]
        (handler request respond raise)))))
 
+(defn spec-ok [{:keys [services services-ctx]}]
+  (and services-ctx
+       (map? services-ctx)
+       services
+       (set? services)
+       (let [provided (into #{} (keys services-ctx))]
+         (superset? provided services))))
+
+;; Clojure spec definitions
+(s/def ::services
+  (s/and set?
+         (s/every keyword? :kind set?)))
+
+(s/def ::services-ctx
+  (s/and map?
+         (s/map-of keyword? any?)))
+
+(s/def ::ctx-route-data
+  (s/and (s/keys :req-un [::services ::services-ctx])
+         (fn [{:keys [services services-ctx]}]
+           (let [provided (into #{} (keys services-ctx))]
+             (superset? provided services)))))
+
+
+(comment 
+   (s/valid? ::ctx-route-data {:services #{:db :cache} :services-ctx nil})  
+  
+  ;; Test the spec:
+   (s/valid? ::ctx-route-data {:services #{:db :cache} :services-ctx {:db {} :cache {}}})  
+  ; => true
+ (s/valid? ::ctx-route-data {:services #{:db :cache} :services-ctx {:db {}}})
+ ; => false (missing :cache)
+(s/valid? ::ctx-route-data {:services #{:db} :services-ctx {:db {} :cache {}}}) 
+; => true (superset is ok)
+ (s/valid? ::ctx-route-data {:services #{:db} :services-ctx {}}) 
+ ; => false (missing :db)
+ (s/valid? ::ctx-route-data {:services #{:db} :services-ctx nil}) 
+ ; => false (services-ctx must be a map)
+ (s/explain ::ctx-route-data {:services #{:db} :services-ctx nil})
+
+ ; => shows why it's invalid 
+ ; 
+  )
+
+;; problem is that inside compile I cannot do an assert or throw an exception.
+;; this will lead to endless printing
+
 (def ctx-middleware
   {:name ::ctx
-   ;:spec (s/keys :req-un [::authorize])
+   :spec ::ctx-route-data
    :compile
-   (fn [{:keys [services services-ctx]} _router-opts] 
-     (when services
-       ;(println "route services: " services)
-       (assert (map? services-ctx) "ctx-middleware services-ctx needs to be a map")
-       ;(println "services ctx: " (keys services-ctx))
-       (let [needed (set-required services)
-             ;_ (println "needed: " needed)
-             provided (into #{} (keys services-ctx))
-             ;_ (println "provided: " provided)
-             ]
-         (assert (superset? provided needed) 
-                 (str "web route missing provided services: needed: " needed " provided " provided))
-         (fn [handler]
-           (wrap-ctx handler services-ctx)))))})
+   (fn [{:keys [services-ctx] :as route-data} _router-opts]
+     (if (spec-ok route-data)
+       (fn [handler] (wrap-ctx handler services-ctx))
+       ;; return empty map just to enforce spec
+       ;; The middleware (and associated spec) will still be part of the chain, but will not process the request.
+       (do 
+         ; (:services-ctx :middleware :handler :services)
+         (error " context-middleware handler " (:handler route-data) " does not meet the required spec.")
+         {})))})

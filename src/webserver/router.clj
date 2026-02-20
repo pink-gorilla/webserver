@@ -1,7 +1,9 @@
 (ns webserver.router
   (:require
    [taoensso.timbre :refer [debug info warn error]]
+   [clojure.spec.alpha :as s]
    [reitit.ring :as ring]
+   [reitit.core :as r]
    [ring.middleware.resource :refer [wrap-resource]]
    [ring.middleware.content-type :refer [wrap-content-type]]
    [ring.middleware.not-modified :refer [wrap-not-modified]]
@@ -33,19 +35,57 @@
         resolved-routes (resolve-handler all-routes)]
     resolved-routes))
 
+(defn validate-route-middleware-specs
+  "Validates that all route middleware specs are met before router creation. Throws an exception with details if any route fails validation."
+  [routes router-opts]
+  (try
+    (let [temp-router (r/router routes router-opts)
+          route-data (r/routes temp-router)]
+      (doseq [rd route-data]
+        (let [path (first rd)
+              ;_ (info "path: " path)
+              data (second rd)]
+          (info "CHECKING ROUTE: " path (keys data)) ;(:services-ctx :middleware :handler)
+          (when-let [middlewares (:middleware data)]
+            (doseq [middleware middlewares]
+              (info "CHECKING MIDDLEWARE: " middleware)
+              (when-let [spec (:spec middleware)]
+                (when-not (s/valid? spec data)
+                  (error "Route middleware spec validation failed path: " path "  Middleware:" (:name middleware))
+                  (let [explanation (s/explain-data spec data)]
+                    ;(error "  Spec explanation:" explanation)
+                    (throw (ex-info "Route middleware spec validation failed" 
+                                    {:path path
+                                     :middleware (:name middleware)
+                                       ;:route-data data
+                                     ;:spec-explanation explanation
+                                     })))))))
+          ;
+          )
+        ))
+    (catch Exception e
+      ;; If router creation fails, it might be due to spec validation
+      ;; Re-throw with a clearer message
+      (error "Failed to create router - middleware spec validation error.")
+      (throw (ex-info "Router creation failed due to middleware spec validation"
+                      {})))))
+
 (defn create-router [{:keys [ctx exts] :as _services} routes]
   ; router
   (info "creating reitit router..")
-  (let [rr (ring/router
-            routes
-            {:data {:services-ctx ctx
-                    :middleware [;my-middleware
-                                 ;parameters/parameters-middleware
-                                 ;wrap-keyword-params
-                                 ;middleware-db
-                                 ]}})]
-    (info "reitit router created!")
-    rr))
+  (let [router-opts {:data {:services-ctx ctx
+                            :middleware [;my-middleware
+                                          ;parameters/parameters-middleware
+                                          ;wrap-keyword-params
+                                          ;middleware-db
+                                         ]}}]
+    ;; Validate all route middleware specs before creating the router
+    (info "pre validate")
+    (validate-route-middleware-specs routes router-opts)
+    (info "post validate")
+    (let [rr (ring/router routes router-opts)]
+      (info "reitit router created!")
+      rr)))
 
 (defn create-handler [services user-routes]
   (let [routes (create-routes services user-routes)

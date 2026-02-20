@@ -2,7 +2,7 @@
  :deps {org.clojure/clojure    {:mvn/version "1.12.4"}
         ; ring middleware
         ring/ring-core {:mvn/version "1.13.0"} ; https://github.com/ring-clojure/ring
-        metosin/muuntaja {:mvn/version "0.6.10"} ; 30x faster than ring-middleware-format
+        metosin/muuntaja {:mvn/version "0.6.11"} ; 30x faster than ring-middleware-format
         ring-cors/ring-cors {:mvn/version "0.1.13"}
         bk/ring-gzip {:mvn/version "0.3.0"} ; from oz
         ring/ring-devel {:mvn/version "1.13.0"} ; reload middleware - same version as rig/core
@@ -11,15 +11,17 @@
         prone/prone {:mvn/version "2021-04-23"} ; exception middleware
         ring/ring-json {:mvn/version "0.5.1"}
         ; routing
-        metosin/reitit-ring        {:mvn/version "0.7.2"} ; routing library
+        metosin/reitit-ring        {:mvn/version ;"0.7.2"
+                                                  "0.10.0"
+                                    } ; routing library
         com.rpl/specter {:mvn/version "1.1.6"} ; route resolving
         ; webserver
         ;info.sunng/ring-jetty9-adapter {:mvn/version  "0.15.2"} ; uses jetty 10.0.2,
         ;info.sunng/ring-jetty9-adapter {:mvn/version  "0.36.0"} ; jetty 12, but could not get it to work with sente.
         ring/ring-jetty-adapter {:mvn/version "1.13.0"} ; jetty 11
         ; https
-        babashka/fs {:mvn/version "0.5.22"}
-        babashka/process {:mvn/version "0.5.22"}
+        babashka/fs {:mvn/version "0.5.31"}
+        babashka/process {:mvn/version "0.6.25"}
         hiccup/hiccup {:mvn/version "1.0.5"}   ; server side templating
         ;org.shredzone.acme4j/acme4j-client {:mvn/version "2.7"}
         ;org.shredzone.acme4j/acme4j-utils {:mvn/version "2.7"}
