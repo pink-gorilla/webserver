@@ -15,8 +15,12 @@
 
     (keyword? services)
     #{services}
+
+    (nil? services)
+    #{}
     :else
-    #{services}))
+    (throw (ex-info "required-services needs to be a set" {}))
+    ))
 
 (defn wrap-ctx
   [handler ctx]
@@ -32,7 +36,7 @@
   {:name ::ctx
    ;:spec (s/keys :req-un [::authorize])
    :compile
-   (fn [{:keys [services services-ctx] :as _route-data} _router-opts]
+   (fn [{:keys [services services-ctx]} _router-opts] 
      (when services
        ;(println "route services: " services)
        (assert (map? services-ctx) "ctx-middleware services-ctx needs to be a map")
@@ -42,6 +46,7 @@
              provided (into #{} (keys services-ctx))
              ;_ (println "provided: " provided)
              ]
-         (assert (superset? provided needed) (str "web route missing provided services: needed: " needed " provided " provided "route data: " _route-data))
+         (assert (superset? provided needed) 
+                 (str "web route missing provided services: needed: " needed " provided " provided))
          (fn [handler]
            (wrap-ctx handler services-ctx)))))})
