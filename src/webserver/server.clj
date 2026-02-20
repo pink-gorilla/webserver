@@ -92,7 +92,9 @@
                        (start-proxy opts))}
         scheduler (start-scheduler this)
         this (assoc this :scheduler scheduler)]
+    ; config
     (write-edn-private "webserver" {:http http :https https :letsencrypt letsencrypt})
+    ; start
     (start-https this)
     (renew-letsencrypt-certificate this)
     this))

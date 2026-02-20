@@ -27,10 +27,11 @@
 
 (defn resolve-handler [routes]
   (info "resolving handlers on start .. ")
-  (specter/transform
-   [TREE-VALUES symbol?]
-   get-handler-backend-symbol routes)
-  (info "resolving handlers on start .. done!"))
+  (let [resolved-routes (specter/transform
+                         [TREE-VALUES symbol?]
+                         get-handler-backend-symbol routes)]
+    (info "resolving handlers on start .. done!")
+    resolved-routes))
 
 (comment
 
