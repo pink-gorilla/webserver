@@ -1,5 +1,6 @@
 (ns webserver.router
   (:require
+   [taoensso.timbre :refer [debug info warn error]]
    [reitit.ring :as ring]
    [ring.middleware.resource :refer [wrap-resource]]
    [ring.middleware.content-type :refer [wrap-content-type]]
@@ -24,25 +25,27 @@
       ;["/r/*" (ring/create-resource-handler {:root "public" :path "/r/"})]
    ])
 
-(defn create-routes [{:keys [ctx exts] :as _services} user-routes]
+(defn create-routes [{:keys [exts] :as _services} user-routes]
   (let [discovered-routes (discover/get-routes exts)
         all-routes (->> (concat default-routes user-routes discovered-routes)
                         (into []))
         _ (write-edn-private "routes" all-routes)
         resolved-routes (resolve-handler all-routes)]
-    ;(println "resolved routes: " resolved-routes)
     resolved-routes))
 
 (defn create-router [{:keys [ctx exts] :as _services} routes]
   ; router
-  (ring/router
-   routes
-   {:data {:services-ctx ctx
-           :middleware [;my-middleware
-                         ;parameters/parameters-middleware
-                         ;wrap-keyword-params
-                         ;middleware-db
-                        ]}}))
+  (info "creating reitit router..")
+  (let [rr (ring/router
+            routes
+            {:data {:services-ctx ctx
+                    :middleware [;my-middleware
+                                 ;parameters/parameters-middleware
+                                 ;wrap-keyword-params
+                                 ;middleware-db
+                                 ]}})]
+    (info "reitit router created!")
+    rr))
 
 (defn create-handler [services user-routes]
   (let [routes (create-routes services user-routes)
