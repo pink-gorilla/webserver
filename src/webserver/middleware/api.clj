@@ -27,13 +27,13 @@
 ; differences to wrap-api-handler.
 ; wrap-ws has no muntaja for format
 #_(defn wrap-ws [handler]
-  (-> handler
+    (-> handler
       ;allow-cross-origin
-      (wrap-defaults site-defaults)
-      (wrap-session)
-      wrap-keyword-params
-      wrap-params
+        (wrap-defaults site-defaults)
+        (wrap-session)
+        wrap-keyword-params
+        wrap-params
        ; needed to query remote apis from cljs
-      #_(wrap-cors :access-control-allow-origin [#".*"]
-                   :access-control-allow-methods [:get :put :post :delete])
-      (wrap-gzip)))
+        #_(wrap-cors :access-control-allow-origin [#".*"]
+                     :access-control-allow-methods [:get :put :post :delete])
+        (wrap-gzip)))

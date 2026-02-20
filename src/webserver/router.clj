@@ -7,10 +7,7 @@
    [ring.util.response :as response]
    [modular.writer :refer [write-edn-private]]
    [webserver.router.ext :as discover]
-   [webserver.router.resolver :refer [resolve-handler]]
-   
-   ))
-
+   [webserver.router.resolver :refer [resolve-handler]]))
 
 ;; Static file handler for index.html
 #_(def static-handler
@@ -19,7 +16,7 @@
         wrap-content-type
         wrap-not-modified))
 
-(def default-routes 
+(def default-routes
   [; ["/" {:handler (fn [_]
    ;                 (response/resource-response "public/index.html"))}]
    ;["/r/*" (ring/create-resource-handler {:root "public"})]
@@ -36,17 +33,16 @@
     ;(println "resolved routes: " resolved-routes)
     resolved-routes))
 
-
-  (defn create-router [{:keys [ctx exts] :as _services} routes]
+(defn create-router [{:keys [ctx exts] :as _services} routes]
   ; router
-    (ring/router
-     routes
-     {:data {:services-ctx ctx
-             :middleware [;my-middleware
+  (ring/router
+   routes
+   {:data {:services-ctx ctx
+           :middleware [;my-middleware
                          ;parameters/parameters-middleware
                          ;wrap-keyword-params
                          ;middleware-db
-                          ]}}))
+                        ]}}))
 
 (defn create-handler [services user-routes]
   (let [routes (create-routes services user-routes)

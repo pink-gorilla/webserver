@@ -1,5 +1,5 @@
 {:paths ["src" "resources"]
- :deps {org.clojure/clojure    {:mvn/version "1.11.1"}
+ :deps {org.clojure/clojure    {:mvn/version "1.12.4"}
         ; ring middleware
         ring/ring-core {:mvn/version "1.13.0"} ; https://github.com/ring-clojure/ring
         metosin/muuntaja {:mvn/version "0.6.10"} ; 30x faster than ring-middleware-format
@@ -12,7 +12,7 @@
         ring/ring-json {:mvn/version "0.5.1"}
         ; routing
         metosin/reitit-ring        {:mvn/version "0.7.2"} ; routing library
-        com.rpl/specter {:mvn/version "1.1.4"} ; route resolving
+        com.rpl/specter {:mvn/version "1.1.6"} ; route resolving
         ; webserver
         ;info.sunng/ring-jetty9-adapter {:mvn/version  "0.15.2"} ; uses jetty 10.0.2,
         ;info.sunng/ring-jetty9-adapter {:mvn/version  "0.36.0"} ; jetty 12, but could not get it to work with sente.
@@ -27,10 +27,11 @@
         ;org.bouncycastle/bcpkix-fips {:mvn/version "1.0.3"}
         ;simplevalue/letsencrypt {:git/url "https://github.com/SimpleValue/sv.letsencrypt.git"
         ;                         :sha "8b1a85846acaaa37a58b054f2372d8fde0663b75"}
+        missionary/missionary {:mvn/version "b.47"}
         ; modular
-        org.pinkgorilla/modular {:mvn/version "0.2.64"} ; encoding + appstart
-        org.pinkgorilla/extension {:mvn/version "0.0.14"} ; brings modular
-        org.pinkgorilla/transit-ajax {:mvn/version "0.1.6"}
+        org.pinkgorilla/modular {:mvn/version "0.3.73"} ; encoding + appstart
+        org.pinkgorilla/extension {:mvn/version "0.0.16"} ; brings modular
+        org.pinkgorilla/transit-ajax {:mvn/version "0.1.11"}
         org.pinkgorilla/timbre {:mvn/version "0.0.8"}}
 
 

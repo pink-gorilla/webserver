@@ -6,7 +6,5 @@
   (->> (get-extensions exts {:web/routes []})
        (map :web/routes)
        (apply concat)
-       (into [])
-       ))
+       (into [])))
 
- 

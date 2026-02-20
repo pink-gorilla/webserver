@@ -1,5 +1,5 @@
 (ns webserver.middleware.ctx
-  (:require 
+  (:require
    [clojure.set :refer [superset?]]))
 
 (defn set-required [services]
@@ -15,7 +15,7 @@
 
     (keyword? services)
     #{services}
-    :else 
+    :else
     #{services}))
 
 (defn wrap-ctx
@@ -27,7 +27,6 @@
     ([request respond raise]
      (let [request (assoc request :ctx ctx)]
        (handler request respond raise)))))
-
 
 (def ctx-middleware
   {:name ::ctx
@@ -45,5 +44,4 @@
              ]
          (assert (superset? provided needed) (str "web route missing provided services: needed: " needed " provided " provided "route data: " _route-data))
          (fn [handler]
-           (wrap-ctx handler services-ctx)))))
-   })
+           (wrap-ctx handler services-ctx)))))})

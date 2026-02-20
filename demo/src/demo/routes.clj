@@ -1,11 +1,11 @@
 (ns demo.routes
-   (:require
-    [hiccup.page :as page]
-    [extension :refer [discover]]
-    [webserver.handler.html :refer [html-response]]
-    [webserver.router :as router]
-    [demo.fortune :as fc] ; needed to create the context
-    ))
+  (:require
+   [hiccup.page :as page]
+   [extension :refer [discover]]
+   [webserver.handler.html :refer [html-response]]
+   [webserver.router :as router]
+   [demo.fortune :as fc] ; needed to create the context
+   ))
 
 (defn main-page [_]
   (println "rendering main page..")
@@ -24,8 +24,7 @@
      [:a {:href "/big-void"} [:p "big-void (unknown route)"]]
      [:img {:src "/r/moon.jpg"
             :width "200px"
-            :height "200px"}]
-     ])))
+            :height "200px"}]])))
 
 ;(def routes
 ;  ["/" {"" main-page
@@ -43,12 +42,9 @@
 
 (def exts (discover))
 
-(router/create-routes {:ctx ctx 
-                       :exts exts} user-routes)
+;(router/create-routes {:ctx ctx :exts exts} user-routes)
 
-(def r (router/create-router {:ctx ctx
-                              :exts exts} user-routes))
-
+;(def r (router/create-router {:ctx ctx :exts exts} user-routes))
 
 (def h (router/create-handler {:ctx ctx
                                :exts exts} user-routes))

@@ -34,14 +34,14 @@
                      "--logs-dir" log-path
                      "--force-renewal")
               (shell {:out :string}
-                   "certbot" "certonly"
-                   "--non-interactive" "--agree-tos"
-                   "-m" email
-                   "--webroot" "--webroot-path" webroot-path
-                   "-d" domain
-                   "--work-dir" work-path
-                   "--config-dir" config-path
-                   "--logs-dir" log-path))]
+                     "certbot" "certonly"
+                     "--non-interactive" "--agree-tos"
+                     "-m" email
+                     "--webroot" "--webroot-path" webroot-path
+                     "-d" domain
+                     "--work-dir" work-path
+                     "--config-dir" config-path
+                     "--logs-dir" log-path))]
       ;(info "renewal out: " (-> r :out))
       ;(info "first line: " (-> r :out str/split-lines first))
       ; first line:  Account registered.

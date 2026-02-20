@@ -3,7 +3,6 @@
    [webserver.server :refer [start-webserver]]
    [demo.routes :refer [h]]))
 
-
 (defn run-webserver [webserver-opts]
-  (println "opts: " webserver-opts)
+  (println "demo opts: " webserver-opts)
   (start-webserver h webserver-opts))

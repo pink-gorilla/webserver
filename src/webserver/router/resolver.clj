@@ -9,11 +9,10 @@
     (debug "resolving handler symbol: " s)
     (-> s
         (requiring-resolve)
-        (var-get)
-     )
-    
+        (var-get))
     (catch Exception ex
-      (error "api-handler-symbol resolve exception: " ex)
+      (error "api-handler-symbol resolve exception: " s)
+      ;(error "api-handler-symbol resolve exception: " ex)
       (throw ex))))
 
 (defn path-check [x]
@@ -30,7 +29,8 @@
   (info "resolving handlers on start .. ")
   (specter/transform
    [TREE-VALUES symbol?]
-   get-handler-backend-symbol routes))
+   get-handler-backend-symbol routes)
+  (info "resolving handlers on start .. done!"))
 
 (comment
 

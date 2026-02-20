@@ -13,7 +13,7 @@
                           :middleware [webserver.middleware.ctx/ctx-middleware
                                        ]
                           :services #{:fortune-db}}]
-              ["/error" {:get demo.error/error-handler}]
+              ["/error" {:get demo.error/bad-handler}]
               
               ]
 
