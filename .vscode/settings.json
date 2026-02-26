@@ -1,0 +1,5 @@
+{
+  // Use the Clojure project that contains the opened file as clojure-lsp root,
+  // so .lsp/config.edn and .clj-kondo/ from this repo are always used.
+  "calva.enableClojureLspOnStart": "when-file-opened-use-furthest-project"
+}

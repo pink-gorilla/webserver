@@ -42,7 +42,7 @@
   (stop-https this)
   (start-https this))
 
-(defn renew-letsencrypt-certificate [{:keys [http https letsencrypt] :as this}]
+(defn renew-letsencrypt-certificate [{:keys [_http https letsencrypt] :as this}]
   (when (and (not (= (:port https) 0))
              (:domain letsencrypt))
     (let [r (renew-cert letsencrypt)
@@ -91,7 +91,8 @@
               :https-a (atom nil)
               :proxy (when-not (= (:port https) 0)
                        (start-proxy opts))}
-        scheduler (start-scheduler this)
+        scheduler (when-not (= (:port https) 0)
+                    (start-scheduler this))
         this (assoc this :scheduler scheduler)]
     ; config
     (write-edn-private "webserver" {:http http :https https :letsencrypt letsencrypt})
@@ -101,7 +102,7 @@
     (info "webserver started!")
     this))
 
-(defn stop-webserver [{:keys [http-h https proxy scheduler] :as this}]
+(defn stop-webserver [{:keys [http-h _https proxy scheduler] :as this}]
   (when scheduler
     (info "stopping scheduler.")
     (scheduler))

@@ -54,15 +54,14 @@
                   (error "Route middleware spec validation failed path: " path "  Middleware:" (:name middleware))
                   (let [explanation (s/explain-data spec data)]
                     ;(error "  Spec explanation:" explanation)
-                    (throw (ex-info "Route middleware spec validation failed" 
+                    (throw (ex-info "Route middleware spec validation failed"
                                     {:path path
                                      :middleware (:name middleware)
                                        ;:route-data data
                                      ;:spec-explanation explanation
                                      })))))))
           ;
-          )
-        ))
+          )))
     (catch Exception e
       ;; If router creation fails, it might be due to spec validation
       ;; Re-throw with a clearer message

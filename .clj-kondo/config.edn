@@ -1,0 +1,3 @@
+{:linters {:clojure-lsp/unused-public-var {:level :off}}
+ ;; Only use this config (no home-dir merge), so CLI and clojure-lsp match
+ :config-paths ^:replace []}

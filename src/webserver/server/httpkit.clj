@@ -9,9 +9,9 @@
 (defn start-httpkit
   [ring-handler config]
   (let [run-server (requiring-resolve 'org.httpkit.server/run-server)
-        default-opts {:allow-null-path-info true ; omit the trailing slash from your URLs
-                      :ws-max-idle-time 3600000 ; important for nrepl middleware 
-                      }
+        #_default-opts #_{:allow-null-path-info true ; omit the trailing slash from your URLs
+                          :ws-max-idle-time 3600000 ; important for nrepl middleware 
+                          }
         {:keys [port]} config]
     (info "Starting Httpkit web server (http:" port ")")
     (run-server ring-handler {:port port

@@ -1,0 +1,2 @@
+{;; Use project's .clj-kondo config so LSP shows same diagnostics as `clj-kondo` CLI
+ :kondo-config-dir ".clj-kondo"}

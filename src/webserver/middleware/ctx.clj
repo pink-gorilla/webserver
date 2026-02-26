@@ -37,22 +37,21 @@
            (let [provided (into #{} (keys services-ctx))]
              (superset? provided services)))))
 
+(comment
+  (s/valid? ::ctx-route-data {:services #{:db :cache} :services-ctx nil})
 
-(comment 
-   (s/valid? ::ctx-route-data {:services #{:db :cache} :services-ctx nil})  
-  
   ;; Test the spec:
-   (s/valid? ::ctx-route-data {:services #{:db :cache} :services-ctx {:db {} :cache {}}})  
+  (s/valid? ::ctx-route-data {:services #{:db :cache} :services-ctx {:db {} :cache {}}})
   ; => true
- (s/valid? ::ctx-route-data {:services #{:db :cache} :services-ctx {:db {}}})
+  (s/valid? ::ctx-route-data {:services #{:db :cache} :services-ctx {:db {}}})
  ; => false (missing :cache)
-(s/valid? ::ctx-route-data {:services #{:db} :services-ctx {:db {} :cache {}}}) 
+  (s/valid? ::ctx-route-data {:services #{:db} :services-ctx {:db {} :cache {}}})
 ; => true (superset is ok)
- (s/valid? ::ctx-route-data {:services #{:db} :services-ctx {}}) 
+  (s/valid? ::ctx-route-data {:services #{:db} :services-ctx {}})
  ; => false (missing :db)
- (s/valid? ::ctx-route-data {:services #{:db} :services-ctx nil}) 
+  (s/valid? ::ctx-route-data {:services #{:db} :services-ctx nil})
  ; => false (services-ctx must be a map)
- (s/explain ::ctx-route-data {:services #{:db} :services-ctx nil})
+  (s/explain ::ctx-route-data {:services #{:db} :services-ctx nil})
 
  ; => shows why it's invalid 
  ; 
@@ -70,7 +69,7 @@
        (fn [handler] (wrap-ctx handler services-ctx))
        ;; return empty map just to enforce spec
        ;; The middleware (and associated spec) will still be part of the chain, but will not process the request.
-       (do 
+       (do
          ; (:services-ctx :middleware :handler :services)
          (error " context-middleware handler " (:handler route-data) " does not meet the required spec.")
          {})))})

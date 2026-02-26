@@ -4,7 +4,7 @@
    ;[ring.adapter.jetty9 :refer [run-jetty]]  ; https://github.com/sunng87/ring-jetty9-adapter  
    [ring.adapter.jetty :refer [run-jetty]]))
 
-(defn start-jetty [handler {:keys [port] :as opts}]
+(defn start-jetty [handler {:keys [_port] :as opts}]
   (info "Starting Jetty web server opts: " opts)
   (let [opts (merge {:allow-null-path-info true ; omit the trailing slash from your URLs
                      :ws-max-idle-time 3600000 ; important for nrepl middleware 

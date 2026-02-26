@@ -11,7 +11,8 @@
 .project
 .settings/*
 .calva
-.lsp/
+.lsp/*
+!.lsp/config.edn
 .webly
 certs
 target/
@@ -21,7 +22,8 @@ demo-webly/karma.conf.js
 creds.edn
 creds-wien.edn
 creds-localhost.edn
-.clj-kondo
+.clj-kondo/*
+!.clj-kondo/config.edn
 *~
 \#*\#
 .\#*
