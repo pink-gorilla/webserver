@@ -77,8 +77,8 @@
   ; router
   (info "creating reitit router..")
   (let [router-opts {:data {:services-ctx ctx
-                            :coercion reitit.coercion.spec/coercion ; coercion is importatn for POST bodys
-                            :muuntaja m/instance
+                            ;:coercion reitit.coercion.spec/coercion ; coercion is importatn for POST bodys
+                            ;:muuntaja m/instance
                             :middleware [;my-middleware
                                           ;parameters/parameters-middleware
                                           ;wrap-keyword-params
