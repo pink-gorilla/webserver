@@ -4,6 +4,8 @@
    [clojure.spec.alpha :as s]
    [reitit.ring :as ring]
    [reitit.core :as r]
+   ;[reitit.ring.coercion :as coercion]
+   [reitit.coercion.spec :as coercion-spec]
    [ring.middleware.resource :refer [wrap-resource]]
    [ring.middleware.content-type :refer [wrap-content-type]]
    [ring.middleware.not-modified :refer [wrap-not-modified]]
@@ -73,6 +75,7 @@
   ; router
   (info "creating reitit router..")
   (let [router-opts {:data {:services-ctx ctx
+                            :coercion coercion-spec/coercion ; coercion is importatn for POST bodys
                             :middleware [;my-middleware
                                           ;parameters/parameters-middleware
                                           ;wrap-keyword-params
