@@ -57,7 +57,7 @@
                 (when-not (s/valid? spec data)
                   (error "Route middleware spec validation failed path: " path "  Middleware:" (:name middleware))
                   (let [explanation (s/explain-data spec data)]
-                    ;(error "  Spec explanation:" explanation)
+                    (error "route path" path "middelware: " (:name middleware)  " Spec failed:" explanation)
                     (throw (ex-info "Route middleware spec validation failed"
                                     {:path path
                                      :middleware (:name middleware)
@@ -69,7 +69,10 @@
     (catch Exception e
       ;; If router creation fails, it might be due to spec validation
       ;; Re-throw with a clearer message
-      (error "Failed to create router - middleware spec validation error.")
+      (error "Failed to create router - middleware spec validation exception: " (ex-message e))
+      (error "ex-data: " (ex-data e))
+      (error "ex-cause: " (ex-cause e))
+      (error "ex: "  e)
       (throw (ex-info "Router creation failed due to middleware spec validation"
                       {})))))
 
